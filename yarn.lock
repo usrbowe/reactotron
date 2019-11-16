@@ -9437,10 +9437,10 @@ react-dom@16.9.0:
     prop-types "^15.6.2"
     scheduler "^0.15.0"
 
-react-hot-loader@4.12.11:
-  version "4.12.11"
-  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.12.11.tgz#06bd618d0a7343c8afa4a31206844f651193bae5"
-  integrity sha512-ySsg1hPwr/5dkZCJVp1nZRbwbpbEQ+3e2+bn/D681Wvr9+o+5bLKkTGq0TXskj8HgCS3ScysXddOng9Cg+JKzw==
+react-hot-loader@4.12.18:
+  version "4.12.18"
+  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.12.18.tgz#a9029e34af2690d76208f9a35189d73c2dfea6a7"
+  integrity sha512-qYD0Qi9lIbg9jLyfmodfqvAQqCBsoPKxAhca8Nxvy2/2pO5Q9r2kM28jN0bbbSnhwK8dJ7FjsfVtXKOxMW+bqw==
   dependencies:
     fast-levenshtein "^2.0.6"
     global "^4.3.0"
