@@ -32,7 +32,6 @@ const Styles = {
     boxShadow: `0px 0px 30px ${Colors.glow}`,
   },
   content: {
-    height: 70,
     paddingLeft: 10,
     paddingRight: 10,
     ...AppStyles.Layout.hbox,
@@ -40,7 +39,7 @@ const Styles = {
   },
   left: { ...AppStyles.Layout.hbox, width: 100, alignItems: "center" },
   right: { ...AppStyles.Layout.hbox, justifyContent: "flex-end", alignItems: "center", width: 100 },
-  center: { ...AppStyles.Layout.vbox, flex: 1, alignItems: "center", justifyContent: "center" },
+  center: { ...AppStyles.Layout.vbox, flex: 1 },
   title: { color: Colors.foregroundLight, textAlign: "center" },
   iconSize: 32,
   toolbarClear: { ...toolbarButton },
@@ -48,9 +47,7 @@ const Styles = {
   searchContainer: {
     position: "relative",
     display: "flex",
-    paddingBottom: 10,
-    paddingTop: 4,
-    paddingRight: 10,
+    padding: "5px 10px",
   },
   searchLabel: { fontSize: 12, paddingLeft: 10, paddingRight: 10 },
   searchInput: {
@@ -121,28 +118,29 @@ class TimelineHeader extends Component {
     }
     const searchContainerStyle = {
       ...Styles.searchContainer,
-      ...(!isTimelineSearchVisible ? { display: "none" } : {}),
     }
 
     return (
       <div style={Styles.container}>
         <div style={Styles.content}>
-          <div style={Styles.left} />
           <div style={Styles.center}>
-            <div style={Styles.title}>{TITLE}</div>
+            <div style={searchContainerStyle}>
+              <input
+                ref={ref => (this.searchInput = ref)}
+                style={Styles.searchInput}
+                onInput={this.props.onFilter ? this.getValue : undefined}
+                onChange={e => ui.setSearchPhrase(e.target.value)}
+                onKeyDown={this.handleKeyDown}
+                value={ui.searchPhrase}
+                placeholder={"Search"}
+              />
+            </div>
           </div>
           <div style={Styles.right}>
             <Button
-              icon={MdSearch}
-              onClick={ui.toggleTimelineSearch}
-              tip="Search"
-              size={Styles.searchIconSize}
-              style={searchIconStyle}
-            />
-            <Button
               icon={MdFilterList}
               onClick={ui.openFilterTimelineDialog}
-              tip="Filter"
+              tip={`Filter <span style='opacity: 0.75'>⌘ + ⇧ + K</span>`}
               size={Styles.iconSize}
               style={Styles.toolbarFilter}
             />
@@ -163,22 +161,11 @@ class TimelineHeader extends Component {
             <Button
               icon={MdDeleteSweep}
               onClick={ui.reset}
-              tip="Clear"
+              tip={`Clear <span style='opacity: 0.75'>⌘ + ⌫</span>`}
               size={Styles.iconSize}
               style={Styles.toolbarClear}
             />
           </div>
-        </div>
-        <div style={searchContainerStyle}>
-          <p style={Styles.searchLabel}>Search</p>
-          <input
-            ref={ref => (this.searchInput = ref)}
-            style={Styles.searchInput}
-            onInput={this.props.onFilter ? this.getValue : undefined}
-            onChange={e => ui.setSearchPhrase(e.target.value)}
-            onKeyDown={this.handleKeyDown}
-            value={ui.searchPhrase}
-          />
         </div>
       </div>
     )

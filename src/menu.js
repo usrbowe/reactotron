@@ -122,6 +122,7 @@ export default class MenuBuilder {
         },
         {
           label: "Toggle Side Menu",
+          accelerator: "Ctrl+Command+M",
           click: () => {
             this.mainWindow.webContents.send("toggle-side-menu")
           },
@@ -140,6 +141,7 @@ export default class MenuBuilder {
         },
         {
           label: "Toggle Side Menu",
+          accelerator: "Ctrl+Command+M",
           click: () => {
             this.mainWindow.webContents.send("toggle-side-menu")
           },

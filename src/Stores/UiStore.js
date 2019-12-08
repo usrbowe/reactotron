@@ -10,7 +10,7 @@ import fs from "fs"
  * Handles UI state.
  */
 class UI {
-  @observable tab = "timeline"
+  @observable tab = "network"
   @observable homeSubNav = "connections"
   @observable stateSubNav = "subscriptions"
   @observable nativeSubNav = "image"
@@ -86,7 +86,10 @@ class UI {
     Mousetrap.bind(`${Keystroke.mousetrap}+-`, this.zoomOut.bind(this))
     Mousetrap.bind(`${Keystroke.mousetrap}+=`, this.zoomIn.bind(this))
     Mousetrap.bind(`${Keystroke.mousetrap}+0`, this.resetZoom.bind(this))
-    Mousetrap.bind(`${Keystroke.mousetrap}+a ${Keystroke.mousetrap}+a ${Keystroke.mousetrap}+a ${Keystroke.mousetrap}+a`, this.openTerminal.bind(this, true))
+    Mousetrap.bind(
+      `${Keystroke.mousetrap}+a ${Keystroke.mousetrap}+a ${Keystroke.mousetrap}+a ${Keystroke.mousetrap}+a`,
+      this.openTerminal.bind(this, true)
+    )
   }
 
   @action

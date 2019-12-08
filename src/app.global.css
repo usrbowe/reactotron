@@ -1,3 +1,83 @@
+/* TEMPORARY  */
+.react-tabs {
+  height: 100%;
+}
+.react-tabs__tab-list {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  background: rgb(32, 32, 32);
+  border-bottom: 1px solid rgb(45, 48, 49);
+}
+.react-tabs__tab {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-bottom: 2px solid transparent;
+}
+.react-tabs__tab--selected {
+  background: rgb(27, 27, 27);
+  border-bottom: 2px solid #66afe9;
+}
+.react-tabs__tab-panel--selected {
+  overflow: auto;
+  padding: 5px;
+  height: calc(100% - 29px);
+  user-select: text;
+}
+/* DATA grid */
+.react-grid-Grid {
+  border: 0;
+  background-color: rgb(27, 27, 27);
+}
+.react-grid-Canvas {
+  background-color: rgb(27, 27, 27);
+}
+.react-grid-Main {
+  background-color: rgb(27, 27, 27);
+}
+.react-grid-Header {
+  background: rgb(32, 32, 32);
+  border-color: rgb(45, 48, 49);
+  border-bottom: 1px solid;
+}
+.react-grid-Row:hover .react-grid-Cell,
+.react-grid-Row.row-context-menu .react-grid-Cell {
+  background-color: rgb(45, 48, 49);
+}
+.react-grid-HeaderCell {
+  background-color: inherit;
+  border-right-color: rgb(45, 48, 49);
+  border-bottom-color: rgb(45, 48, 49);
+}
+.react-grid-Row--even .react-grid-Cell {
+  background-color: rgb(30, 30, 30);
+}
+.react-grid-Cell {
+  background-color: rgb(32, 32, 32);
+  border-right-color: rgb(45, 48, 49);
+  border-bottom: 0;
+}
+.react-grid-Cell__value div {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* HIDE: "" around keys for JSOn vie */
+.object-content {
+  font-family: monospace;
+}
+.object-key span {
+  display: none;
+}
+.object-key span {
+  letter-spacing: 0 !important;
+}
+.object-key + span {
+  margin-left: 0 !important;
+}
+
 html {
   box-sizing: border-box;
 }

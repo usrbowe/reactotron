@@ -45,30 +45,11 @@ const NO_REQUEST_PARAMS = "No params sent."
 
 const Styles = {
   container: {},
-  method: {},
-  status: {},
-  duration: {},
-  url: {
-    wordBreak: "break-all",
-    color: Colors.constant,
-    paddingBottom: 10,
-    WebkitUserSelect: "text",
-    cursor: "text",
-  },
-  headerTitle: {
-    margin: 0,
-    padding: 0,
-    paddingTop: 8,
-    paddingBottom: 0,
-    color: Colors.constant,
-  },
-  sectionLinks: {
-    ...AppStyles.Layout.hbox,
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  spacer: {
-    flex: 1,
+  column: {
+    borderRight: "1px solid #ccc",
+    padding: 5,
+    fontSize: 12,
+    color: "#eee",
   },
 }
 
@@ -82,119 +63,90 @@ const INITIAL_STATE = {
 
 @observer
 class ApiResponseCommand extends Component {
-  static propTypes = {
-    command: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = INITIAL_STATE
-    this.toggleRequestHeaders = this.toggleRequestHeaders.bind(this)
-    this.toggleResponseHeaders = this.toggleResponseHeaders.bind(this)
-    this.toggleRequestBody = this.toggleRequestBody.bind(this)
-    this.toggleResponseBody = this.toggleResponseBody.bind(this)
-    this.toggleRequestParams = this.toggleRequestParams.bind(this)
-  }
-
-  toggleRequestHeaders() {
-    this.setState({ ...INITIAL_STATE, showRequestHeaders: !this.state.showRequestHeaders })
-  }
-
-  toggleResponseHeaders() {
-    this.setState({ ...INITIAL_STATE, showResponseHeaders: !this.state.showResponseHeaders })
-  }
-
-  toggleRequestBody() {
-    this.setState({ ...INITIAL_STATE, showRequestBody: !this.state.showRequestBody })
-  }
-
-  toggleResponseBody() {
-    this.setState({ ...INITIAL_STATE, showResponseBody: !this.state.showResponseBody })
-  }
-
-  toggleRequestParams() {
-    this.setState({ ...INITIAL_STATE, showRequestParams: !this.state.showRequestParams })
-  }
-
   render() {
     const { command } = this.props
-    const {
-      showRequestHeaders,
-      showResponseHeaders,
-      showRequestBody,
-      showResponseBody,
-      showRequestParams,
-    } = this.state
     const { payload } = command
     const { duration } = payload
     const status = dotPath("response.status", payload)
     const url = dotPath("request.url", payload)
-    const smallUrl = pipe(replace(/^http(s):\/\/[^/]+/i, ""), replace(/\?.*$/i, ""))(url)
+    const smallUrl = pipe(
+      replace(/^http(s):\/\/[^/]+/i, ""),
+      replace(/\?.*$/i, "")
+    )(url)
     const method = toUpper(dotPath("request.method", payload) || "")
     const requestHeaders = dotPath("request.headers", payload)
     const responseHeaders = dotPath("response.headers", payload)
     const requestBody = getRequestText(dotPath("request.data", payload))
     const responseBody = dotPath("response.body", payload)
     const requestParams = dotPath("request.params", payload)
-    const subtitle = `${method} ${smallUrl}`
-    const preview = subtitle
-    const summary = { "Status Code": status, Method: method, "Duration (ms)": duration }
+    // const subtitle = `${method} ${smallUrl}`
+    // const preview = subtitle
+    // const summary = { "Status Code": status, Method: method, "Duration (ms)": duration }
 
     return (
-      <Command {...this.props} title={COMMAND_TITLE} duration={duration} preview={preview}>
-        <div style={Styles.container}>
-          <div style={Styles.url}>{url}</div>
-
-          {makeTable(summary)}
-
-          <div style={Styles.sectionLinks}>
-            <SectionLink
-              text={RESPONSE_BODY_TITLE}
-              isActive={showResponseBody}
-              onClick={this.toggleResponseBody}
-            />
-            <SectionLink
-              text={RESPONSE_HEADER_TITLE}
-              isActive={showResponseHeaders}
-              onClick={this.toggleResponseHeaders}
-            />
-            {!isNilOrEmpty(requestBody) && (
-              <SectionLink
-                text={REQUEST_BODY_TITLE}
-                isActive={showRequestBody}
-                onClick={this.toggleRequestBody}
-              />
-            )}
-            {!isNilOrEmpty(requestParams) && (
-              <SectionLink
-                text={REQUEST_PARAMS_TITLE}
-                isActive={showRequestParams}
-                onClick={this.toggleRequestParams}
-              />
-            )}
-            <SectionLink
-              text={REQUEST_HEADER_TITLE}
-              isActive={showRequestHeaders}
-              onClick={this.toggleRequestHeaders}
-            />
-          </div>
-
-          <div style={Styles.content}>
-            {showResponseBody && <Content value={responseBody} />}
-            {showResponseHeaders && makeTable(responseHeaders)}
-            {showRequestBody &&
-              (isNilOrEmpty(requestBody) ? (
-                NO_REQUEST_BODY
-              ) : (
-                <Content value={requestBody} treeLevel={1} />
-              ))}
-            {showRequestParams &&
-              (isNilOrEmpty(requestParams) ? NO_REQUEST_PARAMS : <Content value={requestParams} />)}
-            {showRequestHeaders && makeTable(requestHeaders)}
-          </div>
-        </div>
-      </Command>
+      <div style={{ display: "flex", borderBottom: `1px solid grey` }}>
+        <span style={Styles.column}>{smallUrl}</span>
+        <span style={Styles.column}>{method}</span>
+        <span style={Styles.column}>{status}</span>
+        <span style={Styles.column}> {duration}</span>
+      </div>
     )
+
+    // return (
+    //   <Command {...this.props} title={COMMAND_TITLE} duration={duration} preview={preview}>
+    //     <div style={Styles.container}>
+    //       <div style={Styles.url}>{url}</div>
+
+    //       {makeTable(summary)}
+
+    //       <div style={Styles.sectionLinks}>
+    //         <SectionLink
+    //           text={RESPONSE_BODY_TITLE}
+    //           isActive={showResponseBody}
+    //           onClick={this.toggleResponseBody}
+    //         />
+    //         <SectionLink
+    //           text={RESPONSE_HEADER_TITLE}
+    //           isActive={showResponseHeaders}
+    //           onClick={this.toggleResponseHeaders}
+    //         />
+    //         {!isNilOrEmpty(requestBody) && (
+    //           <SectionLink
+    //             text={REQUEST_BODY_TITLE}
+    //             isActive={showRequestBody}
+    //             onClick={this.toggleRequestBody}
+    //           />
+    //         )}
+    //         {!isNilOrEmpty(requestParams) && (
+    //           <SectionLink
+    //             text={REQUEST_PARAMS_TITLE}
+    //             isActive={showRequestParams}
+    //             onClick={this.toggleRequestParams}
+    //           />
+    //         )}
+    //         <SectionLink
+    //           text={REQUEST_HEADER_TITLE}
+    //           isActive={showRequestHeaders}
+    //           onClick={this.toggleRequestHeaders}
+    //         />
+    //       </div>
+
+    //       <div style={Styles.content}>
+    //         {showResponseBody && <Content value={responseBody} />}
+    //         {showResponseHeaders && makeTable(responseHeaders)}
+    //         {showRequestBody &&
+    //           (isNilOrEmpty(requestBody) ? (
+    //             NO_REQUEST_BODY
+    //           ) : (
+    //             <Content value={requestBody} treeLevel={1} />
+    //           ))}
+    //         {showRequestParams &&
+    //           (isNilOrEmpty(requestParams) ? NO_REQUEST_PARAMS : <Content value={requestParams} />)}
+    //         {showRequestHeaders && makeTable(requestHeaders)}
+    //       </div>
+    //     </div>
+    //   </Command>
+    // )
   }
 }
 

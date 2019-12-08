@@ -11,13 +11,14 @@ import StateKeysAndValuesDialog from "../Dialogs/StateKeysAndValuesDialog"
 import StateWatchDialog from "../Dialogs/StateWatchDialog"
 import Home from "../Home/Home"
 import Help from "../Help/Help"
-import Native from "../Native/Native"
+import Network from "../Network/Network"
 import State from "../State/State"
 import SessionStore from "../Stores/SessionStore"
 import AppStyles from "../Theme/AppStyles"
 import Colors from "../Theme/Colors"
 import Timeline from "../Timeline/Timeline"
 import Sidebar from "./Sidebar"
+import Tabbar from "./Tabbar"
 import StatusBar from "./StatusBar"
 import CustomCommandsList from "../CustomCommands/CustomCommandsList"
 import ReactotronTerminal from "./ReactotronTerminal"
@@ -55,7 +56,7 @@ export default class App extends Component {
     const showTimeline = ui.tab === "timeline"
     const showHelp = ui.tab === "help"
     const showSettings = ui.tab === "settings"
-    const showNative = ui.tab === "native"
+    const showNetwork = ui.tab === "network"
     const showState = ui.tab === "state"
     const showCustomCommands = ui.tab === "customCommands"
 
@@ -64,41 +65,42 @@ export default class App extends Component {
         <div style={Styles.container}>
           <div style={Styles.content}>
             {!ui.inTerminal && (
-              <div style={Styles.body}>
-                <Sidebar />
-                <div style={Styles.app}>
-                  <div style={showHome ? Styles.page : Styles.pageHidden}>
-                    <Home />
-                  </div>
-                  <div style={showTimeline ? Styles.page : Styles.pageHidden}>
-                    <Timeline />
-                  </div>
-                  <div style={showState ? Styles.page : Styles.pageHidden}>
-                    <State />
-                  </div>
-                  <div style={showHelp ? Styles.page : Styles.pageHidden}>
-                    <Help />
-                  </div>
-                  <div style={showNative ? Styles.page : Styles.pageHidden}>
-                    <Native />
-                  </div>
-                  <div style={showCustomCommands ? Styles.page : Styles.pageHidden}>
-                    <CustomCommandsList />
-                  </div>
-                  <div style={showSettings ? Styles.page : Styles.pageHidden}>
-                    <h1>Settings</h1>
-                  </div>
-                </div>
-              </div>
-            )}
-            {ui.inTerminal && (
-              <div style={Styles.body}>
-                <div style={Styles.app}>
-                  <div style={Styles.page}>
-                    <ReactotronTerminal />
+              <>
+                <Tabbar />
+                <div style={Styles.body}>
+                  {/* <Sidebar /> */}
+                  <div style={Styles.app}>
+                    <div style={showHome ? Styles.page : Styles.pageHidden}>
+                      <Home />
+                    </div>
+                    <div style={showTimeline ? Styles.page : Styles.pageHidden}>
+                      <Timeline />
+                    </div>
+                    <div style={showState ? Styles.page : Styles.pageHidden}>
+                      <State />
+                    </div>
+                    <div style={showHelp ? Styles.page : Styles.pageHidden}>
+                      <Help />
+                    </div>
+                    <div style={showNetwork ? Styles.page : Styles.pageHidden}>
+                      <Network />
+                    </div>
+                    <div style={showCustomCommands ? Styles.page : Styles.pageHidden}>
+                      <CustomCommandsList />
+                    </div>
+                    <div style={showSettings ? Styles.page : Styles.pageHidden}>
+                      <h1>Settings</h1>
+                    </div>
                   </div>
                 </div>
-              </div>
+                {/* <div style={Styles.body}>
+                  <div style={Styles.app}>
+                    <div style={Styles.page}>
+                      <ReactotronTerminal />
+                    </div>
+                  </div>
+                </div> */}
+              </>
             )}
             <StatusBar />
           </div>
