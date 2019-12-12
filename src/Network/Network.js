@@ -100,42 +100,43 @@ class Network extends Component {
 
   render() {
     const { session } = this.props
-    const { commands, ui } = session
-    const data = MOCK_DATA.filter(({ type }) => type === "api.response").map((data, index) => {
-      const {
-        payload: { request, response, duration },
-      } = data
-      const domain = pipe(
+    const { commands, ui, commandsManager } = session
+
+    const data = commandsManager.all
+      .filter(({ type }) => type === "api.response")
+      .map((data, index) => {
+        const {
+          payload: { request, response, duration },
+        } = data
+        const domain = pipe(
           replace(/^http(s):\/\/+/i, ""),
-          replace('/', '')
+          replace("/", "")
         )(request.url)
-      return {
-        id: index,
-        url: request.url,
-        shortUrl: pipe(
-          replace(/^http(s):\/\/[^/]+/i, ""),
-          // replace(/\?.*$/i, ""),
-          replace('/', '')
-        )(request.url) || domain,
-        domain,
-        method: request.method,
-        status: response.status,
-        time: `${duration}ms`,
-        // hidden data
-        request,
-        response,
-      }
-    })
-    // console.log(data)
+        const splitUrl = request.url.split("/")
+        const fragment = splitUrl[splitUrl.length - 1]
+        const finalUrl = fragment.startsWith("?")
+          ? splitUrl[splitUrl.length - 2] + fragment
+          : fragment
+        return {
+          id: index,
+          url: request.url,
+          shortUrl: finalUrl || domain,
+          domain,
+          method: request.method,
+          status: response.status,
+          time: `${duration}ms`,
+          // hidden data
+          request,
+          response,
+        }
+      })
     const isEmpty = data.length === 0
     const reverseIf = ui.isTimelineOrderReversed ? reverse : identity
 
     return (
       <div style={Styles.container}>
-        {isEmpty && this.renderEmpty()}
         <div style={Styles.commands} ref="commands">
-          <TableRenderer data={data} />
-          {/* {reverseIf(mapIndexed(this.renderItem, data))} */}
+          {isEmpty ? this.renderEmpty() : <TableRenderer data={data} />}
         </div>
       </div>
     )
@@ -162,7 +163,7 @@ const MOCK_DATA = [
         // body: {
         //   id: 11,
         // },
-        body: '<html><body><h1>404</h1></body</html>',
+        body: "<html><body><h1>404</h1></body</html>",
         status: 201,
         headers: {
           "Content-Type": "application/json; charset=utf-8",

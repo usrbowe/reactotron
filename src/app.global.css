@@ -28,49 +28,49 @@
 /* DATA grid */
 .react-grid-Grid {
   border: 0;
-  background-color: rgb(27, 27, 27);
+  background-color: rgb(27, 27, 27) !important !important;
 }
 .react-grid-Canvas {
-  background-color: rgb(27, 27, 27);
+  background-color: rgb(27, 27, 27) !important;
 }
 .react-grid-Main {
-  background-color: rgb(27, 27, 27);
+  background-color: rgb(27, 27, 27) !important;
 }
 .react-grid-Header {
-  background: rgb(32, 32, 32);
-  border-color: rgb(45, 48, 49);
-  border-bottom: 1px solid;
+  background: rgb(32, 32, 32) !important;
+  border-color: rgb(45, 48, 49) !important;
+  border-bottom: 1px solid !important;
 }
 .react-grid-Row:hover .react-grid-Cell,
 .react-grid-Row.row-context-menu .react-grid-Cell {
-  background-color: rgb(45, 48, 49);
+  background-color: rgb(45, 48, 49) !important;
 }
 .react-grid-HeaderCell {
-  background-color: inherit;
-  border-right-color: rgb(45, 48, 49);
-  border-bottom-color: rgb(45, 48, 49);
+  background-color: inherit !important;
+  border-right-color: rgb(45, 48, 49) !important;
+  border-bottom-color: rgb(45, 48, 49) !important;
 }
 .react-grid-Row--even .react-grid-Cell {
-  background-color: rgb(30, 30, 30);
+  background-color: rgb(30, 30, 30) !important;
 }
 .react-grid-Cell {
-  background-color: rgb(32, 32, 32);
-  border-right-color: rgb(45, 48, 49);
-  border-bottom: 0;
+  background-color: rgb(32, 32, 32) !important;
+  border-right-color: rgb(45, 48, 49) !important;
+  border-bottom: 0 !important;
 }
 .react-grid-Cell__value div {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
 }
 
 /* HIDE: "" around keys for JSOn vie */
 .object-content {
   font-family: monospace;
 }
-.object-key span {
+/* .object-key span {
   display: none;
-}
+} */
 .object-key span {
   letter-spacing: 0 !important;
 }

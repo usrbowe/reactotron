@@ -9,7 +9,7 @@ const ColorCellFormatter = ({ value }) => {
 }
 
 const columns = [
-  { key: "shortUrl", name: "Name", resizable: true, sortable: true, width: 200 },
+  { key: "shortUrl", name: "Name", resizable: true, sortable: true, width: 400 },
   { key: "method", name: "Method", resizable: true, sortable: true, width: 60 },
   {
     key: "status",
@@ -19,8 +19,8 @@ const columns = [
     formatter: ColorCellFormatter,
     width: 80,
   },
-  { key: "domain", name: "Domain", resizable: true, sortable: true, width: 200 },
-  { key: "time", name: "Time", resizable: true, sortable: true, width: 60 },
+  { key: "domain", name: "Domain", resizable: true, sortable: true, width: 300 },
+  { key: "time", name: "Time", resizable: true, sortable: true, width: 100 },
 ]
 
 const headers = data => [
@@ -32,6 +32,11 @@ const headers = data => [
 const TableRenderer = ({ data }) => {
   const [activeRow, setActiveRow] = React.useState(null)
   const [rows, setRows] = React.useState(data)
+
+  React.useEffect(() => {
+    setRows(data)
+  }, [data, setRows])
+
   const renderItem = item => (
     <div style={{ marginBottom: 5, marginLeft: 10 }}>
       <strong style={{ fontFamily: "sans-serif" }}>{item.name}: </strong>
@@ -84,7 +89,7 @@ const TableRenderer = ({ data }) => {
         columns={columns}
         rowGetter={i => rows[i]}
         rowsCount={rows.length}
-        minHeight={"100vh"}
+        // minHeight={"100vh"}
         rowHeight={25}
         enableCellAutoFocus={false}
         onRowClick={(index, data, columns) => setActiveRow(data)}
@@ -133,15 +138,15 @@ const TableRenderer = ({ data }) => {
               <div>
                 {hasValidJSONResponse ? (
                   <ReactJson
-                    name={null}
                     style={{ fontFamily: "sans-serif", backgroundColor: "inherit" }}
                     src={activeRow.response.body}
                     displayDataTypes={false}
-                    collapsed={false}
+                    // collapsed={false}
                     theme={"brewer"}
                     indentWidth={2}
                     displayObjectSize={false}
                     groupArraysAfterLength={99}
+                    sortKeys
                     // shouldCollapse={({ name, src, type, namespace }) => {
                     //   console.log({ name, src, type, namespace })
                     //   return false
