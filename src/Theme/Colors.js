@@ -135,8 +135,12 @@ const invertTheme = false
 const createStylingFromTheme = createStyling(getStylingFromBase16, {})
 
 // here's where I think i should be allowing user customization?
+// FIXME: light mode doesn't look really good
+// const isDarkMode = localStorage.getItem("isDarkMode")
+// const styling = createStylingFromTheme(
+//   isDarkMode === undefined ? ChromeDark : isDarkMode ? ChromeDark : ChromeDefault
+// )
 const styling = createStylingFromTheme(ChromeDark)
-
 // fish out the roles because I haven't committed fully to styling in the components just yet
 const roles = styling("roles").style
 

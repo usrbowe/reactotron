@@ -10,7 +10,7 @@ import fs from "fs"
  * Handles UI state.
  */
 class UI {
-  @observable tab = "react"
+  @observable tab = localStorage.getItem("activeTab") || "react"
   @observable homeSubNav = "connections"
   @observable stateSubNav = "subscriptions"
   @observable nativeSubNav = "image"
@@ -193,6 +193,7 @@ class UI {
 
   @action
   switchTab = newTab => {
+    localStorage.setItem("activeTab", newTab)
     this.tab = newTab
   }
 
