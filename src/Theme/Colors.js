@@ -24,6 +24,7 @@ const getStylingFromBase16 = base16Theme => ({
       .hsl()
       .string(),
     backgroundLighter: base16Theme.base01, // base01 - Lighter Background (Used for status bars)
+    lineLighter: base16Theme.base03, // base03 - complimentary border for backgroundLighter
     line: Color(base16Theme.base01)
       .darken(0.1)
       .hsl()

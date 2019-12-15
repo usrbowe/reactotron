@@ -9,8 +9,8 @@ import { FaMagic } from "react-icons/fa"
 const Styles = {
   container: {
     zIndex: 5,
-    backgroundColor: Colors.backgroundSubtleLight,
-    borderBottom: `1px solid ${Colors.line}`,
+    backgroundColor: Colors.backgroundLighter,
+    borderBottom: `1px solid ${Colors.lineLighter}`,
     WebkitAppRegion: "drag",
     transition: "margin 0.2s ease-out",
   },

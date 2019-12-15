@@ -8,9 +8,9 @@ const Styles = {
   container: {
     // ...AppStyles.Layout.vbox,
     alignItems: "center",
-    color: Colors.highlight,
+    color: Colors.foreground,
     cursor: "pointer",
-    padding: "8px 14px",
+    padding: "3px 14px",
     display: "flex",
   },
   containerTop: {
@@ -20,7 +20,7 @@ const Styles = {
     color: Colors.foregroundLight,
     background: Colors.backgroundDarker,
   },
-  iconSize: 18,
+  iconSize: 12,
   text: {
     paddingTop: 2,
     textAlign: "center",
