@@ -10,7 +10,7 @@ import fs from "fs"
  * Handles UI state.
  */
 class UI {
-  @observable tab = "network"
+  @observable tab = "react"
   @observable homeSubNav = "connections"
   @observable stateSubNav = "subscriptions"
   @observable nativeSubNav = "image"

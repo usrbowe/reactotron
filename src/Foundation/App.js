@@ -1,6 +1,6 @@
 import { Provider, observer } from "mobx-react"
 import React, { Component } from "react"
-import { ipcRenderer } from "electron"
+import { ipcRenderer, remote } from "electron"
 import config from "../Lib/config"
 import FilterTimelineDialog from "../Dialogs/FilterTimelineDialog"
 import ExportTimelineDialog from "../Dialogs/ExportTimelineDialog"
@@ -44,6 +44,8 @@ const Styles = {
 @observer
 export default class App extends Component {
   componentDidMount() {
+    // FORCE OPEN DEVTOOLS
+    // remote.getCurrentWindow().openDevTools()
     ipcRenderer.on("toggle-side-menu", this.handleSideMenuToggle)
   }
 

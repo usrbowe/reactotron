@@ -38,7 +38,6 @@ const Styles = {
 
 // REDUX TOOLS
 import { createDevTools } from "redux-devtools"
-import LogMonitor from "redux-devtools-log-monitor"
 import Inspector from "redux-devtools-inspector"
 const DevTools = createDevTools(<Inspector theme={Colors.theme} invertTheme={false} />)
 
