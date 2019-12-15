@@ -7,18 +7,18 @@ import {
   MdNotificationsNone,
   MdImportExport,
   MdCallReceived,
-  MdFileDownload
-} from 'react-icons/md'
+  MdFileDownload,
+} from "react-icons/md"
 import Tabs from "../Foundation/Tabs"
 import AppStyles from "../Theme/AppStyles"
 import Backups from "./Backups"
 import Subscriptions from "./Subscriptions"
 import Button from "../Shared/CommandToolbarButton"
+import Colors from "../Theme/Colors"
 
 const toolbarButton = {
   cursor: "pointer",
 }
-
 const Styles = {
   container: {
     ...AppStyles.Layout.vbox,
@@ -26,7 +26,7 @@ const Styles = {
     flex: 1,
   },
   toolbarContainer: {
-    display: 'flex',
+    display: "flex",
   },
   toolbarAdd: {
     ...toolbarButton,
@@ -36,74 +36,30 @@ const Styles = {
   iconSize: 32,
 }
 
+// REDUX TOOLS
+import { createDevTools } from "redux-devtools"
+import LogMonitor from "redux-devtools-log-monitor"
+import Inspector from "redux-devtools-inspector"
+const DevTools = createDevTools(<Inspector theme={Colors.theme} invertTheme={false} />)
+
+// STORE
+import { createStore, compose, applyMiddleware } from "redux"
+function devToolsReducer(state = {}, action) {
+  switch (action.type) {
+    default:
+      return action.newState || state
+  }
+}
+export const store = createStore(devToolsReducer, [], compose(DevTools.instrument()))
+
 @inject("session")
 @observer
 class State extends Component {
-  renderSubscriptionActions = () => {
-    const { ui } = this.props.session
-
-    return (
-      <div style={Styles.toolbarContainer}>
-        <Button
-          icon={IconAdd}
-          onClick={ui.openStateWatchDialog}
-          tip="Add"
-          size={Styles.iconSize}
-          style={Styles.toolbarAdd}
-        />
-        <Button
-          icon={IconClear}
-          onClick={ui.clearStateWatches}
-          tip="Clear"
-          size={Styles.iconSize}
-          style={Styles.toolbarClear}
-        />
-      </div>
-    )
-  }
-
   render() {
-    const {
-      session: { ui },
-    } = this.props
-    const {stateSubNav,setStateSubNav,stateBackupStore} = ui;
-
     return (
-      <Tabs selectedTab={stateSubNav} onSwitchTab={setStateSubNav}>
-        <Tabs.Tab
-          name="subscriptions"
-          text="Subscriptions"
-          icon={MdNotificationsNone}
-          renderActions={this.renderSubscriptionActions}
-        >
-          <Subscriptions />
-        </Tabs.Tab>
-        <Tabs.Tab
-          name="backups"
-          text="Snapshots"
-          icon={MdImportExport}
-          renderActions={() => (
-            <div style={Styles.toolbarContainer}>
-              <Button
-                icon={MdCallReceived}
-                onClick={() => stateBackupStore.exportAllBackups()}
-                tip="Copy All Backups to Clipboard"
-                size={Styles.iconSize}
-                style={Styles.toolbarAdd}
-              />
-              <Button
-                icon={MdFileDownload}
-                onClick={() => stateBackupStore.sendBackup()}
-                tip="Add Backup"
-                size={Styles.iconSize}
-                style={Styles.toolbarAdd}
-              />
-            </div>
-          )}
-        >
-          <Backups />
-        </Tabs.Tab>
-      </Tabs>
+      <div style={{ flex: 1 }}>
+        <DevTools store={store} />
+      </div>
     )
   }
 }

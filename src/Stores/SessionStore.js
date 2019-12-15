@@ -19,6 +19,7 @@ import shallowDiff from "../Lib/ShallowDiff"
 import Commands from "../Lib/commands"
 import { StateBackupStore } from "./StateBackupStore"
 import UiStore from "./UiStore"
+import { store } from "../State/State"
 
 const isSubscription = propEq("type", "state.values.change")
 const isSubscriptionCommandWithEmptyChanges = command =>
@@ -194,6 +195,13 @@ class Session {
 
   @action
   handleCommand = command => {
+    if (command.type === "state.action.complete") {
+      // KEEP same action name, but just force update state (as if there is no reducer)
+      store.dispatch({
+        ...command.payload.action,
+        newState: command.payload.newState,
+      })
+    }
     if (command.type === "clear") {
       this.commandsManager.clearClientsCommands(command.clientId)
 
@@ -230,7 +238,7 @@ class Session {
   handleConnectionEstablished = () => {
     this.customCommands.clear()
     this.customCommands.push(...this.customCommands.filter(c => c.clientId !== connection.clientId))
-
+    this.getInitialState()
     this.handleConnectionsChange()
   }
 
@@ -257,6 +265,10 @@ class Session {
   addSubscription = path => {
     this.server.stateValuesSubscribe(path)
     localStorage.setItem("storedSubscriptions", JSON.stringify(this.server.subscriptions))
+  }
+
+  getInitialState = () => {
+    this.server.send("state.initial", {})
   }
 
   removeSubscription = path => {
