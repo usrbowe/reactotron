@@ -1,6 +1,6 @@
 import React from "react"
 import ReactDataGrid from "react-data-grid"
-import ReactJson from "react-json-view"
+import ObjectTree from "../Shared/ObjectTree"
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
 import Colors from "../Theme/Colors"
 
@@ -107,7 +107,7 @@ const TableRenderer = ({ data }) => {
             right: 0,
             fontSize: 13,
             borderTop: "1px solid black",
-            background: "rgb(30, 30, 30)",
+            background: Colors.background,
             color: Colors.foreground,
           }}
         >
@@ -137,21 +137,7 @@ const TableRenderer = ({ data }) => {
             <TabPanel>
               <div>
                 {hasValidJSONResponse ? (
-                  <ReactJson
-                    style={{ fontFamily: "sans-serif", backgroundColor: "inherit" }}
-                    src={activeRow.response.body}
-                    displayDataTypes={false}
-                    // collapsed={false}
-                    theme={"brewer"}
-                    indentWidth={2}
-                    displayObjectSize={false}
-                    groupArraysAfterLength={99}
-                    sortKeys
-                    // shouldCollapse={({ name, src, type, namespace }) => {
-                    //   console.log({ name, src, type, namespace })
-                    //   return false
-                    // }}
-                  />
+                  <ObjectTree object={activeRow.response.body} />
                 ) : (
                   <div style={{ background: "white", padding: 10 }}>
                     <div dangerouslySetInnerHTML={createMarkup()} />
