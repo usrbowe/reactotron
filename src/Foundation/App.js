@@ -12,6 +12,7 @@ import StateWatchDialog from "../Dialogs/StateWatchDialog"
 import Home from "../Home/Home"
 import Help from "../Help/Help"
 import Network from "../Network/Network"
+import ReactTab from "../React/React"
 import State from "../State/State"
 import SessionStore from "../Stores/SessionStore"
 import AppStyles from "../Theme/AppStyles"
@@ -57,6 +58,7 @@ export default class App extends Component {
     const showHelp = ui.tab === "help"
     const showSettings = ui.tab === "settings"
     const showNetwork = ui.tab === "network"
+    const showReact = ui.tab === "react"
     const showState = ui.tab === "state"
     const showCustomCommands = ui.tab === "customCommands"
 
@@ -84,6 +86,9 @@ export default class App extends Component {
                     </div>
                     <div style={showNetwork ? Styles.page : Styles.pageHidden}>
                       <Network />
+                    </div>
+                    <div style={showReact ? Styles.page : Styles.pageHidden}>
+                      <ReactTab />
                     </div>
                     <div style={showCustomCommands ? Styles.page : Styles.pageHidden}>
                       <CustomCommandsList />

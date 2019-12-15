@@ -1,20 +1,65 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import JSONTree from 'react-json-tree'
-import Colors from '../Theme/Colors'
+import React from "react"
+import PropTypes from "prop-types"
+import JSONTree from "react-json-tree"
+import Colors from "../Theme/Colors"
 
-const theme = { ...Colors.theme, base0B: Colors.foreground }
+const theme = { ...Colors.theme }
 
 const Styles = {
   container: {},
   theme: {
-    tree: { backgroundColor: 'transparent', marginTop: -3 },
-    ...theme
+    tree: { backgroundColor: "transparent", marginTop: -3 },
+    ...theme,
   },
   muted: {
-    color: Colors.highlight
+    color: Colors.highlight,
+  },
+  preview: {
+    color: Colors.warning,
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    display: "inline-block",
+    width: "50%",
+    verticalAlign: "bottom",
+  },
+}
+
+function getShortTypeString(val) {
+  if (Array.isArray(val)) {
+    return val.length > 0 ? "[…]" : "[]"
+  } else if (val === null) {
+    return "null"
+  } else if (val === undefined) {
+    return "undef"
+  } else if (typeof val === "object") {
+    return Object.keys(val).length > 0 ? "{…}" : "{}"
+  } else if (typeof val === "function") {
+    return "fn"
+  } else if (typeof val === "string") {
+    return `"${val.substr(0, 10) + (val.length > 10 ? "…" : "")}"`
+  } else if (typeof val === "symbol") {
+    return "symbol"
+  } else {
+    return val
   }
 }
+
+const getTheme = base16Theme => ({
+  extend: base16Theme,
+  nestedNode: ({ style }, keyPath, nodeType, expanded) => ({
+    style: {
+      ...style,
+      whiteSpace: expanded ? "inherit" : "nowrap",
+    },
+  }),
+  nestedNodeItemString: ({ style }, keyPath, nodeType, expanded) => ({
+    style: {
+      ...style,
+      display: expanded ? "none" : "inline",
+    },
+  }),
+})
 
 const ObjectTree = props => {
   const { object, level = 1 } = props
@@ -23,12 +68,20 @@ const ObjectTree = props => {
       <JSONTree
         data={object}
         hideRoot
-        shouldExpandNode={(keyName, data, minLevel) => minLevel <= level}
-        theme={Styles.theme}
+        // shouldExpandNode={(keyName, data, minLevel) => minLevel <= level}
+        theme={getTheme(theme)}
         invertTheme={Colors.invertTheme}
+        invertTheme={false}
         getItemString={(type, data, itemType, itemString) => {
-          if (type === 'Object') {
-            return <span style={Styles.muted}>{itemType}</span>
+          if (type === "Object") {
+            const keys = Object.keys(data)
+            const str = keys
+              .slice(0, 3)
+              .map(key => `${key}: ${getShortTypeString(data[key])}`)
+              .concat(keys.length > 3 ? ["…"] : [])
+              .join(", ")
+
+            return `{ ${str} }`
           }
           return (
             <span style={Styles.muted}>
@@ -46,7 +99,7 @@ const ObjectTree = props => {
 
 ObjectTree.propTypes = {
   object: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  level: PropTypes.number
+  level: PropTypes.number,
 }
 
 export default ObjectTree

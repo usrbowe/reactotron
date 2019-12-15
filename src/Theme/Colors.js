@@ -77,7 +77,55 @@ const getStylingFromBase16 = base16Theme => ({
 // const defaultTheme = 'mocha'
 // const defaultTheme = 'railscasts'
 // const defaultTheme = 'greenscreen'
-const defaultTheme = "twilight"
+// const defaultTheme = "twilight"
+
+export const ChromeDark = {
+  base00: "#242424",
+  base01: "#2a2a2a",
+  base02: "#363636",
+  base03: "#404040",
+  base04: "#777777",
+  base05: "#a5a5a5",
+  special00: "#5db0d7",
+  special01: "#a1f7b5",
+  special02: "#f29766",
+  special03: "#d2c057",
+  special04: "#34d1c5",
+  special05: "#9a7fd5",
+  special06: "#9bbbdc",
+  special07: "#777777",
+  state00: "#c78626",
+  state01: "#363636",
+  state02: "#242424",
+  state03: "#342e24",
+  state04: "#66ff88",
+  state05: "#242424",
+  state06: "#cccccc",
+}
+
+export const ChromeDefault = {
+  base00: "#ffffff",
+  base01: "#f3f3f3",
+  base02: "#eeeeee",
+  base03: "#dadada",
+  base04: "#888888",
+  base05: "#5a5a5a",
+  special00: "#881280",
+  special01: "#222222",
+  special02: "#1a1aa6",
+  special03: "#c80000",
+  special04: "#236e25",
+  special05: "#aa0d91",
+  special06: "#994500",
+  special07: "#888888",
+  state00: "#3879d9",
+  state01: "#dadada",
+  state02: "#ffffff",
+  state03: "#ebf1fb",
+  state04: "#FFFF00",
+  state05: "#222222",
+  state06: "#222222",
+}
 
 // the natural or inverted look
 const invertTheme = false
@@ -86,7 +134,7 @@ const invertTheme = false
 const createStylingFromTheme = createStyling(getStylingFromBase16, {})
 
 // here's where I think i should be allowing user customization?
-const styling = createStylingFromTheme(defaultTheme)
+const styling = createStylingFromTheme(ChromeDark)
 
 // fish out the roles because I haven't committed fully to styling in the components just yet
 const roles = styling("roles").style

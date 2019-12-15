@@ -1,5 +1,6 @@
 /* TEMPORARY  */
 .react-tabs {
+  font-family: monaco, Consolas, "Lucida Console", monospace;
   height: 100%;
 }
 .react-tabs__tab-list {
@@ -62,20 +63,6 @@
   white-space: nowrap !important;
   text-overflow: ellipsis !important;
   overflow: hidden !important;
-}
-
-/* HIDE: "" around keys for JSOn vie */
-.object-content {
-  font-family: monospace;
-}
-/* .object-key span {
-  display: none;
-} */
-.object-key span {
-  letter-spacing: 0 !important;
-}
-.object-key + span {
-  margin-left: 0 !important;
 }
 
 html {

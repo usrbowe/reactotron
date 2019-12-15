@@ -38,6 +38,9 @@ class Sidebar extends Component {
     this.handleClickNetwork = () => {
       this.props.session.ui.switchTab("network")
     }
+    this.handleClickReact = () => {
+      this.props.session.ui.switchTab("react")
+    }
     this.handleClickCustomCommands = () => {
       this.props.session.ui.switchTab("customCommands")
     }
@@ -71,6 +74,11 @@ class Sidebar extends Component {
               icon={MdReorder}
               isActive={ui.tab === "timeline"}
               onClick={this.handleClickTimeline}
+            />
+            <TabbarButton
+              text="⚛️ React"
+              isActive={ui.tab === "react"}
+              onClick={this.handleClickReact}
             />
             <TabbarButton
               text="Network"
