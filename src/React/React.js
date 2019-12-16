@@ -16,23 +16,28 @@ const Styles = {
 
 export default class ReactTab extends Component {
   componentDidMount() {
-    require("react-devtools-core/standalone")
+    this.reactDevTools = require("react-devtools-core/standalone")
       .setContentDOMNode(document.getElementById("container"))
       .setDefaultThemeName("ChromeDark")
       .startServer()
   }
+  componentWillUnmount() {
+    this.reactDevTools && this.reactDevTools.close()
+  }
   render() {
     return (
-      <div id="container" style={Styles.container}>
-        <div id="waiting" style={{ padding: 25 }}>
-          <h2>Waiting for React to connect…</h2>
-          <div>
-            <h4>React Native</h4>
-            <div>The active app will automatically connect in a few seconds.</div>
+      <div style={Styles.container}>
+        <div id="container">
+          <div id="waiting" style={{ padding: 25 }}>
+            <h2>Waiting for React to connect…</h2>
+            <div>
+              <h4>React Native</h4>
+              <div>The active app will automatically connect in a few seconds.</div>
+            </div>
+            <br />
+            <br />
+            <div id="loading-status">Starting the server…</div>
           </div>
-          <br />
-          <br />
-          <div id="loading-status">Starting the server…</div>
         </div>
       </div>
     )

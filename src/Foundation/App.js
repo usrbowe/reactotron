@@ -101,7 +101,7 @@ export default class App extends Component {
                       <Network />
                     </div>
                     <div style={showReact ? Styles.page : Styles.pageHidden}>
-                      <ReactTab />
+                      {showReact && <ReactTab />}
                     </div>
                     <div style={showCustomCommands ? Styles.page : Styles.pageHidden}>
                       <CustomCommandsList />
