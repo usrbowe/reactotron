@@ -247,6 +247,7 @@ class Session {
   }
 
   handleConnectionsChange = () => {
+    console.clear()
     this.connections.clear()
     this.connections.push(...this.server.connections)
 

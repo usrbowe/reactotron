@@ -4,7 +4,7 @@ import React, { Component } from "react"
 import {
   MdLabel as DisplayIcon,
   MdExpandLess as IconOpen,
-  MdExpandMore as IconClosed
+  MdExpandMore as IconClosed,
 } from "react-icons/md"
 import Timestamp from "../Shared/Timestamp"
 import AppStyles from "../Theme/AppStyles"
@@ -124,6 +124,19 @@ class Command extends Component {
     const timestampStyle = Styles.timestamp
     const Icon = isOpen ? IconOpen : IconClosed
     const containerStyles = { ...Styles.container, ...(isOpen && Styles.containerOpen) }
+    switch (command.payload.name) {
+      case "CONSOLE.LOG":
+        window._console.log(...command.payload.value)
+        break
+      case "CONSOLE.WARN":
+        window._console.warn(...command.payload.value)
+        break
+      case "CONSOLE.ERROR":
+        window._console.error(...command.payload.value)
+        break
+      default:
+        window._console.debug(`[${title}] `, command.payload.value)
+    }
     return (
       <div style={containerStyles}>
         <div style={Styles.body}>

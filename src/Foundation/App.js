@@ -1,3 +1,14 @@
+window._console = {
+  log: console.log,
+  warn: console.warn,
+  error: console.error,
+  debug: console.debug,
+}
+console.log = noop => noop
+console.warn = noop => noop
+console.error = noop => noop
+console.debhg = noop => noop
+
 import { Provider, observer } from "mobx-react"
 import React, { Component } from "react"
 import { ipcRenderer, remote } from "electron"
@@ -45,7 +56,7 @@ const Styles = {
 export default class App extends Component {
   componentDidMount() {
     // FORCE OPEN DEVTOOLS
-    // remote.getCurrentWindow().openDevTools()
+    remote.getCurrentWindow().openDevTools()
     ipcRenderer.on("toggle-side-menu", this.handleSideMenuToggle)
   }
 

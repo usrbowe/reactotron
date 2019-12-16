@@ -56,7 +56,7 @@ export const store = createStore(devToolsReducer, [], compose(DevTools.instrumen
 class State extends Component {
   render() {
     return (
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1, maxHeight: "100%" }}>
         <DevTools store={store} />
       </div>
     )
