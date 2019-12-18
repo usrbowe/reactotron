@@ -89,7 +89,7 @@ const TableRenderer = ({ data }) => {
         columns={columns}
         rowGetter={i => rows[i]}
         rowsCount={rows.length}
-        // minHeight={"100vh"}
+        minHeight={"50vh"}
         rowHeight={25}
         enableCellAutoFocus={false}
         onRowClick={(index, data, columns) => setActiveRow(data)}
@@ -97,20 +97,16 @@ const TableRenderer = ({ data }) => {
           setRows(sortRows(data, sortColumn, sortDirection))
         }
       />
-      {activeRow && (
-        <div
-          style={{
-            position: "fixed",
-            height: "50vh",
-            bottom: 26,
-            left: 0,
-            right: 0,
-            fontSize: 13,
-            borderTop: "1px solid black",
-            background: Colors.background,
-            color: Colors.foreground,
-          }}
-        >
+      <div
+        style={{
+          height: "50vh",
+          fontSize: 13,
+          borderTop: "1px solid black",
+          background: Colors.background,
+          color: Colors.foreground,
+        }}
+      >
+        {activeRow ? (
           <Tabs>
             <TabList>
               <Tab>Headers</Tab>
@@ -133,6 +129,12 @@ const TableRenderer = ({ data }) => {
                   {urlParams.map(renderItem)}
                 </>
               )}
+              {activeRow.request.data && (
+                <>
+                  {renderSeparator("Request Data")}
+                  <ObjectTree object={JSON.parse(activeRow.request.data)} />
+                </>
+              )}
             </TabPanel>
             <TabPanel>
               <div>
@@ -146,8 +148,10 @@ const TableRenderer = ({ data }) => {
               </div>
             </TabPanel>
           </Tabs>
-        </div>
-      )}
+        ) : (
+          <h3>Select request to see more details</h3>
+        )}
+      </div>
     </div>
   )
 }

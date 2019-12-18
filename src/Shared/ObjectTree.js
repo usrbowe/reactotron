@@ -26,12 +26,12 @@ const Styles = {
 }
 
 function getShortTypeString(val) {
-  if (Array.isArray(val)) {
-    return val.length > 0 ? "[…]" : "[]"
-  } else if (val === null) {
+  if (val === null) {
     return "null"
   } else if (val === undefined) {
     return "undef"
+  } else if (Array.isArray(val)) {
+    return val.length > 0 ? "[…]" : "[]"
   } else if (typeof val === "object") {
     return Object.keys(val).length > 0 ? "{…}" : "{}"
   } else if (typeof val === "function") {
@@ -75,6 +75,7 @@ const ObjectTree = props => {
         getItemString={(type, data, itemType, itemString) => {
           if (type === "Object") {
             const keys = Object.keys(data)
+            if (!keys) return "{}"
             const str = keys
               .slice(0, 3)
               .map(key => `${key}: ${getShortTypeString(data[key])}`)

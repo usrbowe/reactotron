@@ -87,6 +87,7 @@ class TimelineHeader extends Component {
   }
 
   componentDidMount() {
+    this.props.session.ui.toggleTimelineSearch()
     // when the isTimelineSearchVisible becomes `true`...
     this.unsubscribe = reaction(
       () => this.props.session.ui.isTimelineSearchVisible,
