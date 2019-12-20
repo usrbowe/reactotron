@@ -1,5 +1,6 @@
 import Color from "color"
 import { createStyling } from "react-base16-styling"
+import * as base16Colors from "base16"
 
 // https://github.com/chriskempson/base16/blob/master/styling.md
 
@@ -71,15 +72,6 @@ const getStylingFromBase16 = base16Theme => ({
   theme: base16Theme, // TODO: figure out why I'm doing this?
 })
 
-// the default theme until i figure out how to customize it on the fly
-// http://chriskempson.github.io/base16/
-// const defaultTheme = 'atliersavanah'
-// const defaultTheme = 'ocean'
-// const defaultTheme = 'mocha'
-// const defaultTheme = 'railscasts'
-// const defaultTheme = 'greenscreen'
-// const defaultTheme = "twilight"
-
 export const ChromeDark = {
   base00: "#242424",
   base01: "#2a2a2a",
@@ -128,6 +120,20 @@ export const ChromeDefault = {
   state06: "#222222",
 }
 
+// http://chriskempson.github.io/base16/
+const base16Themes = Object.keys(base16Colors).filter(t => t !== "__esModule")
+const customThemes = {
+  chromedark: {
+    name: "chrome dark",
+    colors: ChromeDark,
+  },
+  chromelight: {
+    name: "chrome light",
+    colors: ChromeDefault,
+  },
+}
+export const themeNames = [...base16Themes, ...Object.keys(customThemes)]
+
 // the natural or inverted look
 const invertTheme = false
 
@@ -140,7 +146,11 @@ const createStylingFromTheme = createStyling(getStylingFromBase16, {})
 // const styling = createStylingFromTheme(
 //   isDarkMode === undefined ? ChromeDark : isDarkMode ? ChromeDark : ChromeDefault
 // )
-const styling = createStylingFromTheme(ChromeDark)
+const userPickedTheme = localStorage.getItem("themeName")
+const selectedTheme =
+  (customThemes[userPickedTheme] && customThemes[userPickedTheme].colors) || userPickedTheme
+const styling = createStylingFromTheme(selectedTheme || ChromeDark)
+
 // fish out the roles because I haven't committed fully to styling in the components just yet
 const roles = styling("roles").style
 

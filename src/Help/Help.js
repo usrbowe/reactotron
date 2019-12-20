@@ -1,36 +1,37 @@
-import React from 'react'
-import Colors from '../Theme/Colors'
-import AppStyles from '../Theme/AppStyles'
-import Header from '../Foundation/Header'
-import HelpKeystrokes from './HelpKeystrokes'
-import HelpFeedback from './HelpFeedback'
+import React from "react"
+import Colors, { themeNames } from "../Theme/Colors"
+import AppStyles from "../Theme/AppStyles"
+import Header from "../Foundation/Header"
+import HelpKeystrokes from "./HelpKeystrokes"
+import HelpFeedback from "./HelpFeedback"
 
 const FEEDBACK = "Let's Connect!"
-const KEYSTROKES = 'Keystrokes'
-const pjson = require('../../package.json');
+const KEYSTROKES = "Keystrokes"
+const SETTINGS = "Settings 💅"
+const pjson = require("../../package.json")
 
-const logoUrl = require('../Theme/Reactotron-128.png')
+const logoUrl = require("../Theme/Reactotron-128.png")
 
 const Styles = {
   container: {
     ...AppStyles.Layout.vbox,
     margin: 0,
-    flex: 1
+    flex: 1,
   },
   content: {
     padding: 20,
-    overflowY: 'scroll',
-    overflowX: 'hidden',
-    ...AppStyles.Layout.vbox
+    overflowY: "scroll",
+    overflowX: "hidden",
+    ...AppStyles.Layout.vbox,
   },
   logoPanel: {
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   logo: {
-    alignSelf: 'center',
+    alignSelf: "center",
     height: 128,
     marginTop: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
   title: {
     fontSize: 18,
@@ -38,25 +39,41 @@ const Styles = {
     marginBottom: 10,
     color: Colors.foregroundLight,
     paddingBottom: 2,
-    borderBottom: `1px solid ${Colors.highlight}`
-  }
+    borderBottom: `1px solid ${Colors.highlight}`,
+  },
 }
 
-const Help = () => (
-  <div style={Styles.container}>
-    <Header title={`Using Reactotron ${pjson.version}`} />
-    <div style={Styles.content}>
-      <div style={Styles.logoPanel}>
-        <img src={logoUrl} style={Styles.logo} />
+const Help = () => {
+  const [theme, setTheme] = React.useState(localStorage.getItem("themeName"))
+  return (
+    <div style={Styles.container}>
+      <Header title={`Using Reactotron ${pjson.version}`} />
+      <div style={Styles.content}>
+        <div style={Styles.title}>{SETTINGS}</div>
+        <form>
+          <select
+            value={theme}
+            style={{ height: 35 }}
+            onChange={e => {
+              console.log(e.target.value)
+              setTheme(e.target.value)
+              localStorage.setItem("themeName", e.target.value)
+            }}
+          >
+            {themeNames.map(name => (
+              <option value={name}>{name}</option>
+            ))}
+          </select>
+        </form>
+
+        <div style={Styles.title}>{FEEDBACK}</div>
+        <HelpFeedback />
+
+        <div style={Styles.title}>{KEYSTROKES}</div>
+        <HelpKeystrokes />
       </div>
-
-      <div style={Styles.title}>{FEEDBACK}</div>
-      <HelpFeedback />
-
-      <div style={Styles.title}>{KEYSTROKES}</div>
-      <HelpKeystrokes />
     </div>
-  </div>
-)
+  )
+}
 
 export default Help
