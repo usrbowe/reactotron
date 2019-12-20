@@ -3,6 +3,7 @@ import ReactDataGrid from "react-data-grid"
 import ObjectTree from "../Shared/ObjectTree"
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
 import Colors from "../Theme/Colors"
+import NetworkHeader from "./NetworkHeader"
 
 const ColorCellFormatter = ({ value }) => {
   return <span style={{ color: value >= 400 ? "red" : "green" }}>{value}</span>
@@ -29,13 +30,41 @@ const headers = data => [
   { name: "Status Code", value: data.response.status },
 ]
 
-const TableRenderer = ({ data }) => {
+const TableRenderer = ({ data, renderEmpty }) => {
   const [activeRow, setActiveRow] = React.useState(null)
   const [rows, setRows] = React.useState(data)
+  const [activeFilter, setActiveFilter] = React.useState("")
+
+  // const simpleMatch = (data, filter) => data.filter(({ url }) => url.includes(filter))
+  const betterMatch = (data, filter) =>
+    data.filter(({ url }) => filter.split(" ").every(i => url.includes(i)))
 
   React.useEffect(() => {
-    setRows(data)
+    setRows(activeFilter ? betterMatch(data, activeFilter) : data)
   }, [data, setRows])
+
+  const onFilterChange = value => {
+    if (!value) {
+      setRows(data)
+      setActiveFilter("")
+    } else {
+      setActiveFilter(value)
+      setRows(betterMatch(data, value))
+    }
+  }
+
+  // Reset active selected response
+  React.useEffect(() => {
+    if (!activeRow) return
+    // If there are no visible rows (either filtered out, or cleared responses)
+    if (rows.length === 0) {
+      setActiveRow(null)
+    }
+    // If current active is no longer visible
+    if (!rows.find(row => row.id === activeRow.id)) {
+      setActiveRow(null)
+    }
+  }, [rows, activeRow])
 
   const renderItem = item => (
     <div style={{ marginBottom: 5, marginLeft: 10 }}>
@@ -85,73 +114,92 @@ const TableRenderer = ({ data }) => {
   }
   return (
     <div>
-      <ReactDataGrid
-        columns={columns}
-        rowGetter={i => rows[i]}
-        rowsCount={rows.length}
-        minHeight={"50vh"}
-        rowHeight={25}
-        enableCellAutoFocus={false}
-        onRowClick={(index, data, columns) => setActiveRow(data)}
-        onGridSort={(sortColumn, sortDirection) =>
-          setRows(sortRows(data, sortColumn, sortDirection))
-        }
-      />
-      <div
-        style={{
-          height: "50vh",
-          fontSize: 13,
-          borderTop: "1px solid black",
-          background: Colors.background,
-          color: Colors.foreground,
-        }}
-      >
-        {activeRow ? (
-          <Tabs>
-            <TabList>
-              <Tab>Headers</Tab>
-              <Tab>Response</Tab>
-            </TabList>
+      <NetworkHeader onFilterChange={onFilterChange} />
+      {/* {rows.length === 0 ? (
+        renderEmpty()
+      ) : ( */}
+      <div>
+        <ReactDataGrid
+          columns={columns}
+          rowGetter={i => rows[i]}
+          rowsCount={rows.length}
+          minHeight={"50vh"}
+          rowHeight={25}
+          enableCellAutoFocus={false}
+          onRowClick={(index, data, columns) => setActiveRow(data)}
+          onGridSort={(sortColumn, sortDirection) =>
+            setRows(sortRows(data, sortColumn, sortDirection))
+          }
+        />
+        <div
+          style={{
+            height: "50vh",
+            fontSize: 13,
+            borderTop: "1px solid black",
+            background: Colors.background,
+            color: Colors.foreground,
+          }}
+        >
+          {activeRow ? (
+            <Tabs>
+              <TabList>
+                <Tab>Headers</Tab>
+                <Tab>Response</Tab>
+              </TabList>
 
-            <TabPanel>
-              {headers(activeRow).map(renderItem)}
-              {renderSeparator("Response Headers")}
-              {Object.entries(activeRow.response.headers).map(([key, value]) =>
-                renderItem({ name: key, value })
-              )}
-              {renderSeparator("Request Headers")}
-              {Object.entries(activeRow.request.headers).map(([key, value]) =>
-                renderItem({ name: key, value })
-              )}
-              {hasUrlParams && (
-                <>
-                  {renderSeparator("Query String Params")}
-                  {urlParams.map(renderItem)}
-                </>
-              )}
-              {activeRow.request.data && (
-                <>
-                  {renderSeparator("Request Data")}
-                  <ObjectTree object={JSON.parse(activeRow.request.data)} />
-                </>
-              )}
-            </TabPanel>
-            <TabPanel>
-              <div>
-                {hasValidJSONResponse ? (
-                  <ObjectTree object={activeRow.response.body} />
-                ) : (
-                  <div style={{ background: "white", padding: 10 }}>
-                    <div dangerouslySetInnerHTML={createMarkup()} />
-                  </div>
+              <TabPanel>
+                {headers(activeRow).map(renderItem)}
+                {renderSeparator("Response Headers")}
+                {Object.entries(activeRow.response.headers).map(([key, value]) =>
+                  renderItem({ name: key, value })
                 )}
-              </div>
-            </TabPanel>
-          </Tabs>
-        ) : (
-          <h3>Select request to see more details</h3>
-        )}
+                {renderSeparator("Request Headers")}
+                {Object.entries(activeRow.request.headers).map(([key, value]) =>
+                  renderItem({ name: key, value })
+                )}
+                {activeRow.request.headers.cookie && (
+                  <>
+                    {renderSeparator("Request Cookies")}
+                    {activeRow.request.headers.cookie.split("; ").map(item => {
+                      const [key, value] = item.split("=")
+                      return renderItem({
+                        name: key,
+                        value,
+                      })
+                    })}
+                  </>
+                )}
+                {hasUrlParams && (
+                  <>
+                    {renderSeparator("Query String Params")}
+                    {urlParams.map(renderItem)}
+                  </>
+                )}
+                {activeRow.request.data && (
+                  <>
+                    {renderSeparator("Request Data")}
+                    <ObjectTree object={JSON.parse(activeRow.request.data)} />
+                  </>
+                )}
+              </TabPanel>
+              <TabPanel>
+                <div>
+                  {hasValidJSONResponse ? (
+                    <ObjectTree object={activeRow.response.body} />
+                  ) : (
+                    <div style={{ background: "white", padding: 10 }}>
+                      <div dangerouslySetInnerHTML={createMarkup()} />
+                    </div>
+                  )}
+                </div>
+              </TabPanel>
+            </Tabs>
+          ) : (
+            <h3>Select request to see more details</h3>
+          )}
+        </div>
       </div>
+      {/* )} */}
     </div>
   )
 }

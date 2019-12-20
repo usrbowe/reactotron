@@ -108,10 +108,7 @@ class Network extends Component {
         const {
           payload: { request, response, duration },
         } = data
-        const domain = pipe(
-          replace(/^http(s):\/\/+/i, ""),
-          replace("/", "")
-        )(request.url)
+        const domain = pipe(replace(/^http(s):\/\/+/i, ""))(request.url)
         const splitUrl = request.url.split("/")
         const fragment = splitUrl[splitUrl.length - 1]
         const finalUrl = fragment.startsWith("?")
@@ -121,7 +118,7 @@ class Network extends Component {
           id: index,
           url: request.url,
           shortUrl: finalUrl || domain,
-          domain,
+          domain: domain.split("/")[0],
           method: request.method,
           status: response.status,
           time: `${duration}ms`,
@@ -136,7 +133,7 @@ class Network extends Component {
     return (
       <div style={Styles.container}>
         <div style={Styles.commands} ref="commands">
-          {isEmpty ? this.renderEmpty() : <TableRenderer data={data} />}
+          <TableRenderer data={data} renderEmpty={this.renderEmpty} />
         </div>
       </div>
     )

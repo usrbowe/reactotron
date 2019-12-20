@@ -23,24 +23,25 @@
 .react-tabs__tab-panel--selected {
   overflow: auto;
   padding: 5px;
-  height: calc(100% - 83px);
+  height: calc(100% - 133px);
   user-select: text;
 }
 /* DATA grid */
 .react-grid-Grid {
   border: 0;
-  background-color: rgb(27, 27, 27) !important !important;
+  background-color: rgb(27, 27, 27) !important;
 }
 .react-grid-Canvas {
   background-color: rgb(27, 27, 27) !important;
 }
 .react-grid-Main {
   background-color: rgb(27, 27, 27) !important;
+  outline: none !important;
 }
 .react-grid-Header {
   background: rgb(32, 32, 32) !important;
   border-color: rgb(45, 48, 49) !important;
-  border-bottom: 1px solid !important;
+  border-bottom: 1px solid rgb(45, 48, 49) !important;
 }
 .react-grid-Row:hover .react-grid-Cell,
 .react-grid-Row.row-context-menu .react-grid-Cell {

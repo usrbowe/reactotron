@@ -53,7 +53,7 @@ const Styles = {
   },
   displayIconSize: 16,
   preview: {
-    color: Colors.highlight,
+    color: Colors.theme.base05,
     textAlign: "left",
     paddingRight: 16,
     overflow: "hidden",
@@ -135,7 +135,7 @@ class Command extends Component {
         window._console.error(...command.payload.value)
         break
       default:
-        window._console.debug(`[${title}] `, command.payload.value)
+        window._console.debug(`[${title}] `, command.payload.value || command.payload.message)
     }
     return (
       <div style={containerStyles}>
