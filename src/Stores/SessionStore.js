@@ -299,6 +299,13 @@ class Session {
     this.server.on("command", this.handleCommand)
     this.server.on("connectionEstablished", this.handleConnectionEstablished)
 
+    // reset redux devtools
+    this.server.on("connectionEstablished", connection => {
+      // FIXME: Clear all commands on new connection (this breaks mutliple connections)
+      this.commandsManager.all.clear()
+      this.ui.resetReduxDevTools(connection.clientId)
+    })
+
     // resend the storybook state to newly arriving connections
     this.server.on("connectionEstablished", connection =>
       this.ui.sendStorybookState(connection.clientId)

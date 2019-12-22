@@ -56,6 +56,7 @@ class State extends Component {
   store = null
   state = {
     devToolsVisible: false,
+    dispatchesId: null,
   }
   componentDidUpdate(prevProps) {
     const {
@@ -78,8 +79,11 @@ class State extends Component {
     const hasInitStore = Boolean(this.store)
     const hasNewStateChange = watches.id !== prevProps.session.watches.id
     // FIXME: only dispatch when there is new dispatches id
-    if (hasInitStore && dispatches) {
+    if (hasInitStore && dispatches && this.state.dispatchesId !== dispatches.id) {
       // console.log("new state updates -> ", dispatches.action, watches.latest[0])
+      this.setState({
+        dispatchesId: dispatches.id,
+      })
       this.store.dispatch({
         ...dispatches.action,
         __internalUpdate: watches.latest[0].value,
@@ -102,7 +106,17 @@ class State extends Component {
     const { watches, dispatches } = this.props.session
     return (
       <div style={{ flex: 1, maxHeight: "100%" }}>
-        {devToolsVisible ? <DevTools store={this.store} /> : <h1>Yoo, wait for it!</h1>}
+        {devToolsVisible ? (
+          <DevTools store={this.store} />
+        ) : (
+          <div id="waiting" style={{ padding: 25 }}>
+            <h2>Waiting for first dispatch...</h2>
+            <div>
+              <h4>Redux </h4>
+              <div>Log will be shown upon first dispatched action</div>
+            </div>
+          </div>
+        )}
       </div>
     )
   }

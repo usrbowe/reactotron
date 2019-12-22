@@ -33,9 +33,6 @@ export default class ReactTab extends Component {
             <h4>React Native</h4>
             <div>The active app will automatically connect in a few seconds.</div>
           </div>
-          <br />
-          <br />
-          <div id="loading-status">Starting the server…</div>
         </div>
       </div>
     )

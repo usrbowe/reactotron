@@ -32,6 +32,7 @@ class UI {
     JSON.parse(localStorage.getItem("isTimelineOrderReversed")) || false
   @observable isSidebarVisible = true
   @observable isStorybookShown = false
+  @observable reduxConnectionId = 0
   @observable searchPhrase = ""
   @observable exportFilePath = ""
   @observable writingFileError = ""
@@ -532,6 +533,11 @@ class UI {
    */
   sendStorybookState = clientId => {
     this.server.send("storybook", this.isStorybookShown, clientId)
+  }
+
+  // Reset redux devtools
+  resetReduxDevTools = clientId => {
+    this.reduxConnectionId = clientId
   }
 
   exportCommands = () => {

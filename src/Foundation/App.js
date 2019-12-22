@@ -94,7 +94,7 @@ export default class App extends Component {
                       <Timeline />
                     </div>
                     <div style={showState ? Styles.page : Styles.pageHidden}>
-                      <State />
+                      <State key={ui.reduxConnectionId} />
                     </div>
                     <div style={showHelp ? Styles.page : Styles.pageHidden}>
                       <Help />
