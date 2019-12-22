@@ -108,6 +108,13 @@ class Session {
   }
 
   @computed
+  get dispatches() {
+    const changeCommands = this.commandsManager.all.filter(c => c.type === "state.action.complete")
+    const latest = head(changeCommands)
+    return latest ? { id: latest.messageId, action: latest.payload.action } : null
+  }
+
+  @computed
   get watches() {
     const changeCommands = this.commandsManager.all.filter(c => c.type === "state.values.change")
 
@@ -124,7 +131,10 @@ class Session {
 
     const recentCommand = head(connectionsChangeCommands)
     const latest = dotPath("payload.changes", recentCommand) || []
-    return latest
+    return {
+      id: recentCommand ? recentCommand.messageId : 0,
+      latest: latest,
+    }
   }
 
   // are commands of this type hidden?
@@ -195,13 +205,6 @@ class Session {
 
   @action
   handleCommand = command => {
-    if (command.type === "state.action.complete") {
-      // KEEP same action name, but just force update state (as if there is no reducer)
-      store.dispatch({
-        ...command.payload.action,
-        newState: command.payload.newState,
-      })
-    }
     if (command.type === "clear") {
       this.commandsManager.clearClientsCommands(command.clientId)
 

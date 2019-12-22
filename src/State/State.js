@@ -46,18 +46,63 @@ import { createStore, compose, applyMiddleware } from "redux"
 function devToolsReducer(state = {}, action) {
   switch (action.type) {
     default:
-      return action.newState || state
+      return action.__internalUpdate || state
   }
 }
-export const store = createStore(devToolsReducer, [], compose(DevTools.instrument()))
 
 @inject("session")
 @observer
 class State extends Component {
+  store = null
+  state = {
+    devToolsVisible: false,
+  }
+  componentDidUpdate(prevProps) {
+    const {
+      session: { watches, dispatches },
+    } = this.props
+    const { dispatches: prevDispatches } = prevProps.session
+    // First time we receive data initialize store
+    if (!this.store && watches && watches.id !== 0) {
+      // console.log("Init store after first change", watches)
+      this.store = createStore(
+        devToolsReducer,
+        watches.latest[0].value,
+        compose(DevTools.instrument())
+      )
+      // Show devtools once store is created
+      this.setState({ devToolsVisible: true })
+    }
+
+    // Update devtools store - still bit hacky
+    const hasInitStore = Boolean(this.store)
+    const hasNewStateChange = watches.id !== prevProps.session.watches.id
+    // FIXME: only dispatch when there is new dispatches id
+    if (hasInitStore && dispatches) {
+      // console.log("new state updates -> ", dispatches.action, watches.latest[0])
+      this.store.dispatch({
+        ...dispatches.action,
+        __internalUpdate: watches.latest[0].value,
+      })
+    }
+  }
+
+  componentDidMount() {
+    // FIXME: this is probably wrong indicator if any watch is setup
+    // Add subscription for entire state if haven't done before
+    if (this.props.session.watches.length === 0) {
+      const { session } = this.props
+      session.ui.watchToAdd = ""
+      session.ui.submitStateWatch()
+    }
+  }
   render() {
+    const { devToolsVisible } = this.state
+    // KEEP to subscribe changes
+    const { watches, dispatches } = this.props.session
     return (
       <div style={{ flex: 1, maxHeight: "100%" }}>
-        <DevTools store={store} />
+        {devToolsVisible ? <DevTools store={this.store} /> : <h1>Yoo, wait for it!</h1>}
       </div>
     )
   }
