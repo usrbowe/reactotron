@@ -135,7 +135,7 @@ const TableRenderer = ({ data, renderEmpty }) => {
           style={{
             height: "50vh",
             fontSize: 13,
-            borderTop: "1px solid black",
+            borderTop: `1px solid ${Colors.lineLighter}`,
             background: Colors.background,
             color: Colors.foreground,
           }}

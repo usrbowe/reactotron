@@ -8,8 +8,9 @@
   display: flex;
   margin: 0;
   padding: 0;
-  background: rgb(32, 32, 32);
-  border-bottom: 1px solid rgb(45, 48, 49);
+  background: var(--color-backgroundLighter);
+  border-bottom: 1px solid var(--color-lineLighter);
+  height: 28px;
 }
 .react-tabs__tab {
   font-size: 12px;
@@ -17,8 +18,8 @@
   border-bottom: 2px solid transparent;
 }
 .react-tabs__tab--selected {
-  background: rgb(27, 27, 27);
-  border-bottom: 2px solid #66afe9;
+  background: var(--color-backgroundDarker);
+  color: var(--color-foregroundLight);
 }
 .react-tabs__tab-panel--selected {
   overflow: auto;
@@ -29,35 +30,41 @@
 /* DATA grid */
 .react-grid-Grid {
   border: 0;
-  background-color: rgb(27, 27, 27) !important;
+  background-color: var(--main-bg-color) !important;
 }
 .react-grid-Canvas {
-  background-color: rgb(27, 27, 27) !important;
+  background-color: var(--main-bg-color) !important;
 }
 .react-grid-Main {
-  background-color: rgb(27, 27, 27) !important;
+  background-color: var(--main-bg-color) !important;
   outline: none !important;
 }
 .react-grid-Header {
-  background: rgb(32, 32, 32) !important;
-  border-color: rgb(45, 48, 49) !important;
-  border-bottom: 1px solid rgb(45, 48, 49) !important;
+  border-color: var(--color-lineLighter) !important;
+  border-bottom: 1px solid var(--color-lineLighter) !important;
+  background: var(--color-backgroundLighter) !important;
+  box-shadow: none !important;
 }
-.react-grid-Row:hover .react-grid-Cell,
+.react-grid-HeaderRow {
+  border-top: 1px solid var(--color-lineLighter) !important;
+}
 .react-grid-Row.row-context-menu .react-grid-Cell {
-  background-color: rgb(45, 48, 49) !important;
+  background-color: var(--color-backgroundLighter) !important;
+}
+.react-grid-Row:hover .react-grid-Cell {
+  background-color: var(--color-backgroundLighter) !important;
 }
 .react-grid-HeaderCell {
   background-color: inherit !important;
-  border-right-color: rgb(45, 48, 49) !important;
-  border-bottom-color: rgb(45, 48, 49) !important;
+  border-right-color: var(--color-lineLighter) !important;
+  border-bottom-color: var(--color-lineLighter) !important;
 }
 .react-grid-Row--even .react-grid-Cell {
-  background-color: rgb(30, 30, 30) !important;
+  background-color: var(--color-backgroundDarker) !important;
 }
 .react-grid-Cell {
-  background-color: rgb(32, 32, 32) !important;
-  border-right-color: rgb(45, 48, 49) !important;
+  background-color: var(--color-background) !important;
+  border-right-color: var(--color-lineLighter) !important;
   border-bottom: 0 !important;
 }
 .react-grid-Cell__value div {

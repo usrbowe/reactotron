@@ -61,7 +61,9 @@ const Help = () => {
             }}
           >
             {themeNames.map(name => (
-              <option value={name}>{name}</option>
+              <option key={name} value={name}>
+                {name}
+              </option>
             ))}
           </select>
         </form>

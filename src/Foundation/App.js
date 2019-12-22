@@ -34,6 +34,7 @@ import Tabbar from "./Tabbar"
 import StatusBar from "./StatusBar"
 import CustomCommandsList from "../CustomCommands/CustomCommandsList"
 import ReactotronTerminal from "./ReactotronTerminal"
+import GlobalStyles from "./GlobalStyles"
 
 const session = new SessionStore(config.get("server.port", 9090))
 
@@ -77,6 +78,7 @@ export default class App extends Component {
 
     return (
       <Provider session={session}>
+        <GlobalStyles />
         <div style={Styles.container}>
           <div style={Styles.content}>
             {!ui.inTerminal && (
