@@ -59,7 +59,7 @@ const Styles = {
     position: "absolute",
     top: 0,
     right: 0,
-    backgroundColor: Colors.backgroundSubtleDark,
+    backgroundColor: Colors.backgroundLighter,
     color: Colors.foregroundDark,
     border: "none",
     paddingLeft: 10,

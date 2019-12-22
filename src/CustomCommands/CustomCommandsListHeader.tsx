@@ -43,7 +43,7 @@ const Styles = {
     borderRadius: 4,
     padding: 10,
     flex: 1,
-    backgroundColor: Colors.backgroundSubtleDark,
+    backgroundColor: Colors.backgroundLighter,
     border: "none",
     color: Colors.foregroundDark,
     fontSize: 14,

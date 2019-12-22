@@ -20,10 +20,6 @@ const getStylingFromBase16 = base16Theme => ({
       .lighten(0.05)
       .hsl()
       .string(),
-    backgroundSubtleDark: Color(base16Theme.base00)
-      .darken(0.3)
-      .hsl()
-      .string(),
     backgroundLighter: base16Theme.base01, // base01 - Lighter Background (Used for status bars)
     lineLighter: base16Theme.base03, // base03 - complimentary border for backgroundLighter
     line: Color(base16Theme.base01)
@@ -103,6 +99,7 @@ export const ChromeDefault = {
   base03: "#dadada",
   base04: "#888888",
   base05: "#5a5a5a",
+  base06: "#4c4c4c",
   special00: "#881280",
   special01: "#222222",
   special02: "#1a1aa6",
@@ -123,11 +120,12 @@ export const ChromeDefault = {
 // http://chriskempson.github.io/base16/
 const base16Themes = Object.keys(base16Colors).filter(t => t !== "__esModule")
 const customThemes = {
-  chromedark: {
+  // Keep the name of chrome PascalCase so it works with React devtools
+  ChromeDark: {
     name: "chrome dark",
     colors: ChromeDark,
   },
-  chromelight: {
+  ChromeLight: {
     name: "chrome light",
     colors: ChromeDefault,
   },

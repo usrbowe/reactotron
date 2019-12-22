@@ -12,7 +12,7 @@ const Styles = {
   container: {
     zIndex: 5,
     maxWidth: 115,
-    backgroundColor: Colors.backgroundSubtleDark,
+    backgroundColor: Colors.backgroundLighter,
     // boxShadow: `0px 0px 30px ${Colors.glow}`,
     borderRight: `1px solid ${Colors.chromeLine}`,
     WebkitAppRegion: "drag",

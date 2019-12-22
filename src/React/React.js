@@ -18,7 +18,7 @@ export default class ReactTab extends Component {
   componentDidMount() {
     this.reactDevTools = require("react-devtools-core/standalone")
       .setContentDOMNode(document.getElementById("container"))
-      .setDefaultThemeName("ChromeDark")
+      .setDefaultThemeName(localStorage.getItem("themeName"))
       .startServer()
   }
   componentWillUnmount() {

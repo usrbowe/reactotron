@@ -15,7 +15,7 @@ const Styles = {
     marginRight: 4,
     backgroundColor: Colors.subtleLine,
     borderRadius: 2,
-    border: `1px solid ${Colors.backgroundSubtleDark}`,
+    border: `1px solid ${Colors.backgroundLighter}`,
     cursor: 'pointer',
     color: Colors.foregroundDark
   },

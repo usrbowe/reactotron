@@ -152,10 +152,6 @@ a.closeButton--jss-0-1 {
   width: 300px;
 }
 
-*::-webkit-input-placeholder {
-  opacity: 0.2;
-}
-
 /* can't hover with inline styles so doing it here.. */
 .button.custom-commands-list-button:hover {
   background-color: #e73435 !important;
