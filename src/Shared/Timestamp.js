@@ -5,7 +5,7 @@ import { format } from "date-fns"
 
 const Styles = {
   container: { margin: 0, padding: 0, position: "relative" },
-  left: { color: Colors.highlight },
+  left: { color: Colors.lineLighter },
   right: { color: Colors.foreground },
   delta: {
     color: Colors.tag,

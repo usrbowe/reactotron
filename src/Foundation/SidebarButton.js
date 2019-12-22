@@ -10,7 +10,7 @@ const Styles = {
     alignItems: 'center',
     paddingTop: 15,
     marginBottom: 15,
-    color: Colors.highlight,
+    color: Colors.lineLighter,
     cursor: 'pointer',
     borderTop: `1px solid ${Colors.line}`,
     marginLeft: 10,

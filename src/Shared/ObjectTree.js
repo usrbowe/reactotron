@@ -12,7 +12,7 @@ const Styles = {
     ...theme,
   },
   muted: {
-    color: Colors.highlight,
+    color: Colors.lineLighter,
   },
   preview: {
     color: Colors.warning,

@@ -18,7 +18,7 @@ const Styles = {
     backgroundColor: Colors.foreground,
     padding: "4px 8px",
     fontWeight: "bold",
-    borderBottom: `2px solid ${Colors.highlight}`,
+    borderBottom: `2px solid ${Colors.lineLighter}`,
   },
   helpDetail: {
     color: Colors.foreground,
@@ -27,10 +27,10 @@ const Styles = {
     ...AppStyles.Layout.vbox,
     marginTop: 0,
     marginBottom: 30,
-    color: Colors.highlight,
+    color: Colors.lineLighter,
   },
   category: {
-    color: Colors.highlight,
+    color: Colors.lineLighter,
   },
   helpShortcut: {
     ...AppStyles.Layout.hbox,

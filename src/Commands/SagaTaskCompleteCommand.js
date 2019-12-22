@@ -70,7 +70,7 @@ const Styles = {
   },
   effectTitle: {
     ...AppStyles.Layout.hbox,
-    borderBottom: `1px solid ${Colors.highlight}`,
+    borderBottom: `1px solid ${Colors.lineLighter}`,
     paddingBottom: 4,
     marginBottom: 4,
   },

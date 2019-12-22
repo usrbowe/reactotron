@@ -9,7 +9,7 @@ const Styles = {
     backgroundColor: Colors.foreground,
     padding: '4px 12px',
     fontWeight: 'bold',
-    borderBottom: `2px solid ${Colors.highlight}`,
+    borderBottom: `2px solid ${Colors.lineLighter}`,
     marginLeft: 2,
     marginRight: 2
   }

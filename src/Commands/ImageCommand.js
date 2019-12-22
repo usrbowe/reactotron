@@ -21,7 +21,7 @@ const Styles = {
     color: Colors.constant,
   },
   filename: {
-    color: Colors.highlight,
+    color: Colors.lineLighter,
   },
 }
 

@@ -9,7 +9,7 @@ const Styles = {
     ...AppStyles.Layout.vbox,
     flex: 0,
     alignItems: "center",
-    color: Colors.highlight,
+    color: Colors.lineLighter,
     cursor: "pointer",
     paddingRight: 20,
     paddingTop: 10,

@@ -31,10 +31,6 @@ const getStylingFromBase16 = base16Theme => ({
       .hsl()
       .string(),
     backgroundHighlight: base16Theme.base02, // base02 - Selection Background
-    highlight: Color(base16Theme.base03)
-      .lighten(0.3)
-      .hsl()
-      .string(), // base03 - Comments, Invisibles, Line Highlighting
     foregroundDark: base16Theme.base04, // base04 - Dark Foreground (Used for status bars)
     foreground: base16Theme.base05, // base05 - Default Foreground, Caret, Delimiters, Operators
     foregroundLight: base16Theme.base06, // base06 - Light Foreground (Not often used)

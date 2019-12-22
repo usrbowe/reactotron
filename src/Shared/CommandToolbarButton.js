@@ -5,7 +5,7 @@ import ReactTooltip from "react-tooltip"
 
 const Styles = {
   container: {
-    color: Colors.highlight,
+    color: Colors.foregroundDark,
     marginTop: -2,
     marginRight: 8,
   },

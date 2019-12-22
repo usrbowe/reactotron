@@ -39,7 +39,7 @@ const Styles = {
     marginBottom: 10,
     color: Colors.foregroundLight,
     paddingBottom: 2,
-    borderBottom: `1px solid ${Colors.highlight}`,
+    borderBottom: `1px solid ${Colors.lineLighter}`,
   },
 }
 
