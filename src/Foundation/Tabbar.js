@@ -15,7 +15,7 @@ const Styles = {
     transition: "margin 0.2s ease-out",
   },
   content: { ...AppStyles.Layout.vbox, height: "100%", alignItems: "center" },
-  tabs: { display: "flex", width: "100%", paddingLeft: 75 },
+  tabs: { display: "flex", width: "100%" },
 }
 
 @inject("session")
@@ -23,9 +23,6 @@ const Styles = {
 class Sidebar extends Component {
   constructor(props) {
     super(props)
-    this.handleClickHome = () => {
-      this.props.session.ui.switchTab("home")
-    }
     this.handleClickTimeline = () => {
       this.props.session.ui.switchTab("timeline")
     }
@@ -63,12 +60,6 @@ class Sidebar extends Component {
       >
         <div style={Styles.content}>
           <div style={Styles.tabs}>
-            <TabbarButton
-              text="Home"
-              icon={MdHome}
-              isActive={isHome}
-              onClick={this.handleClickHome}
-            />
             <TabbarButton
               text="Timeline"
               icon={MdReorder}

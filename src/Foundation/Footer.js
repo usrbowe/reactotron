@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import Colors from '../Theme/Colors'
-import AppStyles from '../Theme/AppStyles'
-import { observer, inject } from 'mobx-react'
-const logoUrl = require('../Theme/Reactotron-128.png')
+import React, { Component } from "react"
+import Colors from "../Theme/Colors"
+import AppStyles from "../Theme/AppStyles"
+import { observer, inject } from "mobx-react"
+const logoUrl = require("../Theme/Reactotron-128.png")
 
-const APP_NAME = 'Reactotron'
-const APP_VERSION = '1.0.0'
-const PORT_LABEL = 'port'
-const CONNECTIONS_SUFFIX_SINGULAR = 'connection'
-const CONNECTIONS_SUFFIX_PLURAL = 'connections'
+const APP_NAME = "Shopeetron"
+const APP_VERSION = "2.0.0"
+const PORT_LABEL = "port"
+const CONNECTIONS_SUFFIX_SINGULAR = "connection"
+const CONNECTIONS_SUFFIX_PLURAL = "connections"
 
 const Styles = {
   container: {
@@ -18,45 +18,45 @@ const Styles = {
     paddingLeft: 5,
     paddingRight: 10,
     paddingTop: 5,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   content: {
     ...AppStyles.Layout.hbox,
-    alignItems: 'center',
-    height: '100%'
+    alignItems: "center",
+    height: "100%",
   },
   line: {
     height: 30,
     width: 1,
     marginLeft: 10,
     marginRight: 10,
-    backgroundColor: Colors.background
+    backgroundColor: Colors.background,
   },
   reactotronContainer: {
     paddingLeft: 5,
     paddingRight: 10,
     ...AppStyles.Layout.vbox,
     flex: 0,
-    alignItems: 'flex-start'
+    alignItems: "flex-start",
   },
   reactotron: {},
   version: {
     fontSize: 12,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   logo: { width: 32, height: 32 },
-  github: { margin: '0 6px', color: Colors.text },
-  settings: { margin: '0 6px', color: Colors.text },
-  feedback: { margin: '0 6px', color: Colors.text },
-  web: { margin: '0 6px', color: Colors.text },
-  twitter: { margin: '0 6px', color: Colors.text },
-  stretcher: { flex: 1 }
+  github: { margin: "0 6px", color: Colors.text },
+  settings: { margin: "0 6px", color: Colors.text },
+  feedback: { margin: "0 6px", color: Colors.text },
+  web: { margin: "0 6px", color: Colors.text },
+  twitter: { margin: "0 6px", color: Colors.text },
+  stretcher: { flex: 1 },
 }
 
-@inject('session')
+@inject("session")
 @observer
 class Footer extends Component {
-  render () {
+  render() {
     const { server } = this.props.session
     const { port } = server.options
     const connectionCount = server.connectionCount
@@ -74,7 +74,7 @@ class Footer extends Component {
           </p>
           <div style={Styles.line} />
           <p>
-            {connectionCount}{' '}
+            {connectionCount}{" "}
             {connectionCount === 1 ? CONNECTIONS_SUFFIX_SINGULAR : CONNECTIONS_SUFFIX_PLURAL}
           </p>
         </div>

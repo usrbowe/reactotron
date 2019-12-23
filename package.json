@@ -1,6 +1,6 @@
 {
   "name": "reactotron-app",
-  "productName": "Reactotron",
+  "productName": "Shopeetron",
   "version": "2.17.1",
   "description": "Reactotron desktop mode engage!",
   "author": {
@@ -151,7 +151,7 @@
     "webpack-merge": "4.2.1"
   },
   "build": {
-    "productName": "Reactotron",
+    "productName": "Shopeetron",
     "appId": "com.reactotron.app",
     "files": [
       "src/dist/",

@@ -47,25 +47,28 @@ const installExtensions = /* async */ () => {
  */
 app.on("window-all-closed", app.quit)
 
-app.on("ready", /* async */ () => {
-//   if (process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true") {
-//     await installExtensions()
-//   }
+app.on(
+  "ready",
+  /* async */ () => {
+    //   if (process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true") {
+    //     await installExtensions()
+    //   }
 
     // Load the previous state with fallback to defaults
     let mainWindowState = windowStateKeeper({
-      file: 'reactotron-window-state.json',
+      file: "reactotron-window-state.json",
       defaultWidth: 650,
       defaultHeight: 800,
     })
 
     mainWindow = new BrowserWindow({
+      frame: true,
       show: false,
       x: mainWindowState.x,
       y: mainWindowState.y,
       width: mainWindowState.width,
       height: mainWindowState.height,
-      titleBarStyle: "hiddenInset",
+      // titleBarStyle: "hiddenInset",
     })
 
     mainWindowState.manage(mainWindow)
