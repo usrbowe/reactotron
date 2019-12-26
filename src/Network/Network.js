@@ -109,8 +109,13 @@ class Network extends Component {
           payload: { request, response, duration },
         } = data
         const domain = pipe(replace(/^http(s):\/\/+/i, ""))(request.url)
+        // better domain
+        const afterHttp = request.url.split("//")[1]
+        const betterDomain = afterHttp ? afterHttp.split("/")[0] : domain.split("/")[0]
         const splitUrl = request.url.split("/")
-        const fragment = splitUrl[splitUrl.length - 1]
+        // FIXME: better handle of those:
+        // - http://localhost:3001/get_all_special_shops/
+        const fragment = splitUrl[splitUrl.length - 1] || splitUrl[splitUrl.length - 2]
         const finalUrl = fragment.startsWith("?")
           ? splitUrl[splitUrl.length - 2] + fragment
           : fragment
@@ -118,7 +123,7 @@ class Network extends Component {
           id: index,
           url: request.url,
           shortUrl: finalUrl || domain,
-          domain: domain.split("/")[0],
+          domain: betterDomain,
           method: request.method,
           status: response.status,
           time: `${duration}ms`,

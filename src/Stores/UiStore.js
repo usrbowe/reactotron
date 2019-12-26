@@ -537,7 +537,7 @@ class UI {
 
   // Reset redux devtools
   resetReduxDevTools = clientId => {
-    this.reduxConnectionId = clientId
+    this.reduxConnectionId = Date.now()
   }
 
   exportCommands = () => {

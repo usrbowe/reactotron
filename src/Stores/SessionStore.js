@@ -235,6 +235,27 @@ class Session {
       return
     }
 
+    if (!contains(command.type, this.commandsHiddenInTimeline)) {
+      // NOTE: log all things here!
+      const title = command.payload.name
+      const message = command.payload.value || command.payload.message || command.payload.data
+      switch (command.payload.name) {
+        case "CONSOLE.LOG":
+          window._console.log(...command.payload.value)
+          break
+        case "CONSOLE.WARN":
+          window._console.warn(...command.payload.value)
+          break
+        case "CONSOLE.ERROR":
+          window._console.error(...command.payload.value)
+          break
+        default:
+          if (title === "ERROR") window._console.error(message)
+          else {
+            window._console.debug(`[${title}] `, message)
+          }
+      }
+    }
     this.commandsManager.addCommand(command)
   }
 
@@ -250,7 +271,10 @@ class Session {
   }
 
   handleConnectionsChange = () => {
+    // NOTE: clear also all commands on connection change
     console.clear()
+    this.commandsManager.all.clear()
+
     this.connections.clear()
     this.connections.push(...this.server.connections)
 

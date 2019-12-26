@@ -10,7 +10,7 @@ const Styles = {
     alignItems: "center",
     color: Colors.foreground,
     cursor: "pointer",
-    padding: "3px 14px",
+    padding: "2px 14px",
     display: "flex",
   },
   containerTop: {
@@ -20,7 +20,7 @@ const Styles = {
     color: Colors.foregroundLight,
     background: Colors.backgroundDarker,
   },
-  iconSize: 12,
+  iconSize: 14,
   text: {
     paddingTop: 2,
     textAlign: "center",
@@ -40,7 +40,7 @@ const SidebarButton = props => {
 
   return (
     <div style={containerStyles} onClick={onClick}>
-      {Icon && <Icon size={Styles.iconSize} />}
+      {Icon && <Icon size={iconSize || Styles.iconSize} />}
       {children}
       <div style={Styles.text}>{props.text}</div>
     </div>

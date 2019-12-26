@@ -91,6 +91,7 @@ class Sidebar extends Component {
             />
             <TabbarButton
               icon={MdMoreVert}
+              iconSize={16}
               styles={{ marginLeft: "auto" }}
               isActive={ui.tab === "help"}
               onClick={this.handleClickHelp}
