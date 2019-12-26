@@ -4,6 +4,7 @@ import AppStyles from "../Theme/AppStyles"
 import Header from "../Foundation/Header"
 import HelpKeystrokes from "./HelpKeystrokes"
 import HelpFeedback from "./HelpFeedback"
+import ErrorBoundary from "../Shared/ErrorBoundary"
 
 const FEEDBACK = "Let's Connect!"
 const KEYSTROKES = "Keystrokes"
@@ -47,33 +48,35 @@ const Help = () => {
   const [theme, setTheme] = React.useState(localStorage.getItem("themeName"))
   return (
     <div style={Styles.container}>
-      <Header title={`Using Reactotron ${pjson.version}`} />
-      <div style={Styles.content}>
-        <div style={Styles.title}>{SETTINGS}</div>
-        <form>
-          <select
-            value={theme}
-            style={{ height: 35 }}
-            onChange={e => {
-              console.log(e.target.value)
-              setTheme(e.target.value)
-              localStorage.setItem("themeName", e.target.value)
-            }}
-          >
-            {themeNames.map(name => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </form>
+      <ErrorBoundary>
+        <Header title={`Using Reactotron ${pjson.version}`} />
+        <div style={Styles.content}>
+          <div style={Styles.title}>{SETTINGS}</div>
+          <form>
+            <select
+              value={theme}
+              style={{ height: 35 }}
+              onChange={e => {
+                console.log(e.target.value)
+                setTheme(e.target.value)
+                localStorage.setItem("themeName", e.target.value)
+              }}
+            >
+              {themeNames.map(name => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </form>
 
-        <div style={Styles.title}>{FEEDBACK}</div>
-        <HelpFeedback />
+          <div style={Styles.title}>{FEEDBACK}</div>
+          <HelpFeedback />
 
-        <div style={Styles.title}>{KEYSTROKES}</div>
-        <HelpKeystrokes />
-      </div>
+          <div style={Styles.title}>{KEYSTROKES}</div>
+          <HelpKeystrokes />
+        </div>
+      </ErrorBoundary>
     </div>
   )
 }

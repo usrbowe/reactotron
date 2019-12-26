@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import JSONTree from "react-json-tree"
 import Colors from "../Theme/Colors"
+import ErrorBoundary from "./ErrorBoundary"
 
 const theme = { ...Colors.theme }
 
@@ -63,37 +64,40 @@ const getTheme = base16Theme => ({
 
 const ObjectTree = props => {
   const { object, level = 1 } = props
+
   return (
     <div style={Styles.container}>
-      <JSONTree
-        data={object}
-        hideRoot
-        // shouldExpandNode={(keyName, data, minLevel) => minLevel <= level}
-        theme={getTheme(theme)}
-        invertTheme={Colors.invertTheme}
-        invertTheme={false}
-        getItemString={(type, data, itemType, itemString) => {
-          if (type === "Object") {
-            const keys = Object.keys(data)
-            if (!keys) return "{}"
-            const str = keys
-              .slice(0, 3)
-              .map(key => `${key}: ${getShortTypeString(data[key])}`)
-              .concat(keys.length > 3 ? ["…"] : [])
-              .join(", ")
+      <ErrorBoundary>
+        <JSONTree
+          data={object}
+          hideRoot
+          // shouldExpandNode={(keyName, data, minLevel) => minLevel <= level}
+          theme={getTheme(theme)}
+          invertTheme={Colors.invertTheme}
+          invertTheme={false}
+          getItemString={(type, data, itemType, itemString) => {
+            if (type === "Object") {
+              const keys = Object.keys(data)
+              if (!keys) return "{}"
+              const str = keys
+                .slice(0, 3)
+                .map(key => `${key}: ${getShortTypeString(data[key])}`)
+                .concat(keys.length > 3 ? ["…"] : [])
+                .join(", ")
 
-            return `{ ${str} }`
-          }
-          return (
-            <span style={Styles.muted}>
-              {itemType} {itemString}
-            </span>
-          )
-        }}
-        valueRenderer={(transformed, untransformed) => {
-          return `${untransformed || transformed}`
-        }}
-      />
+              return `{ ${str} }`
+            }
+            return (
+              <span style={Styles.muted}>
+                {itemType} {itemString}
+              </span>
+            )
+          }}
+          valueRenderer={(transformed, untransformed) => {
+            return `${untransformed || transformed}`
+          }}
+        />
+      </ErrorBoundary>
     </div>
   )
 }

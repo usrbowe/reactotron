@@ -15,6 +15,7 @@ import Backups from "./Backups"
 import Subscriptions from "./Subscriptions"
 import Button from "../Shared/CommandToolbarButton"
 import Colors from "../Theme/Colors"
+import ErrorBoundary from "../Shared/ErrorBoundary"
 
 const toolbarButton = {
   cursor: "pointer",
@@ -106,17 +107,19 @@ class State extends Component {
     const { watches, dispatches } = this.props.session
     return (
       <div style={{ flex: 1, maxHeight: "100%" }}>
-        {devToolsVisible ? (
-          <DevTools store={this.store} />
-        ) : (
-          <div id="waiting" style={{ padding: 25 }}>
-            <h2>Waiting for first dispatch...</h2>
-            <div>
-              <h4>Redux </h4>
-              <div>Log will be shown upon first dispatched action</div>
+        <ErrorBoundary>
+          {devToolsVisible ? (
+            <DevTools store={this.store} />
+          ) : (
+            <div id="waiting" style={{ padding: 25 }}>
+              <h2>Waiting for first dispatch...</h2>
+              <div>
+                <h4>Redux </h4>
+                <div>Log will be shown upon first dispatched action</div>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </ErrorBoundary>
       </div>
     )
   }
