@@ -93,9 +93,9 @@ class State extends Component {
   }
 
   componentDidMount() {
-    // FIXME: this is probably wrong indicator if any watch is setup
     // Add subscription for entire state if haven't done before
-    if (this.props.session.watches.length === 0) {
+    const storedSubscriptions = localStorage.getItem("storedSubscriptions")
+    if (!storedSubscriptions) {
       const { session } = this.props
       session.ui.watchToAdd = ""
       session.ui.submitStateWatch()
