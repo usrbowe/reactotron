@@ -1,16 +1,37 @@
 import React from "react"
+import { clipboard } from "electron"
 import ReactDataGrid from "react-data-grid"
+import { Menu } from "react-data-grid-addons"
+import httpStatus from "http-status"
 import ObjectTree from "../Shared/ObjectTree"
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
 import Colors from "../Theme/Colors"
 import NetworkHeader from "./NetworkHeader"
+import ResponsePreview from "./ResponsePreview"
+
+const { ContextMenu, MenuItem, ContextMenuTrigger } = Menu
+
+const UrlCellFormatter = ({ value, row }) => {
+  return <span title={row.url}>{value}</span>
+}
 
 const ColorCellFormatter = ({ value }) => {
-  return <span style={{ color: value >= 400 ? "red" : "green" }}>{value}</span>
+  return (
+    <span style={[value >= 400 && { color: "red" }]} title={`${value} ${httpStatus[value]}`}>
+      {value}
+    </span>
+  )
 }
 
 const columns = [
-  { key: "shortUrl", name: "Name", resizable: true, sortable: true, width: 400 },
+  {
+    key: "shortUrl",
+    name: "Name",
+    formatter: UrlCellFormatter,
+    resizable: true,
+    sortable: true,
+    width: 300,
+  },
   { key: "method", name: "Method", resizable: true, sortable: true, width: 60 },
   {
     key: "status",
@@ -18,10 +39,10 @@ const columns = [
     resizable: true,
     sortable: true,
     formatter: ColorCellFormatter,
-    width: 80,
+    width: 60,
   },
-  { key: "domain", name: "Domain", resizable: true, sortable: true, width: 300 },
-  { key: "time", name: "Time", resizable: true, sortable: true, width: 100 },
+  { key: "domain", name: "Domain", resizable: true, sortable: true, width: 200 },
+  { key: "time", name: "Time", resizable: true, sortable: true, width: 60 },
 ]
 
 const headers = data => [
@@ -35,7 +56,6 @@ const TableRenderer = ({ data, renderEmpty }) => {
   const [rows, setRows] = React.useState(data)
   const [activeFilter, setActiveFilter] = React.useState("")
 
-  // const simpleMatch = (data, filter) => data.filter(({ url }) => url.includes(filter))
   const betterMatch = (data, filter) =>
     data.filter(({ url }) => filter.split(" ").every(i => url.includes(i)))
 
@@ -66,32 +86,6 @@ const TableRenderer = ({ data, renderEmpty }) => {
     }
   }, [rows, activeRow])
 
-  const renderItem = item => (
-    <div style={{ marginBottom: 5, marginLeft: 10 }}>
-      <strong style={{ fontFamily: "sans-serif" }}>{item.name}: </strong>
-      <span style={{ fontFamily: "monospace", fontSize: 14 }}>{item.value}</span>
-    </div>
-  )
-  const renderSeparator = label => (
-    <div
-      style={{
-        marginTop: 15,
-        marginBottom: 5,
-        padding: 5,
-        marginLeft: -5,
-        marginRight: -5,
-        fontWeight: "bold",
-        fontSize: 14,
-        color: Colors.foreground,
-        borderTop: `1px solid ${Colors.foreground}`,
-      }}
-    >
-      {label}
-    </div>
-  )
-  const createMarkup = () => {
-    return { __html: activeRow ? activeRow.response.body : "No Response" }
-  }
   const sortRows = (initialRows, sortColumn, sortDirection) => rows => {
     const comparer = (a, b) => {
       if (sortDirection === "ASC") {
@@ -102,22 +96,46 @@ const TableRenderer = ({ data, renderEmpty }) => {
     }
     return sortDirection === "NONE" ? initialRows : [...rows].sort(comparer)
   }
+
+  const ExampleContextMenu = ({ idx, id, rowIdx }) => {
+    return (
+      <ContextMenu id={id}>
+        <MenuItem
+          data={{ rowIdx, idx }}
+          onClick={() => {
+            // TODO: add temp[x] if previous taken
+            console.log(
+              "Stored new global variable $temp1",
+              (global.$temp1 = rows[rowIdx].response.body)
+            )
+          }}
+        >
+          Store response as global variable
+        </MenuItem>
+        <MenuItem
+          data={{ rowIdx, idx }}
+          onClick={() => {
+            clipboard.writeText(JSON.stringify(rows[rowIdx].response.body))
+          }}
+        >
+          Copy response to clipboard
+        </MenuItem>
+      </ContextMenu>
+    )
+  }
+
   const hasValidJSONResponse = typeof (activeRow && activeRow.response.body) === "object"
-  let hasUrlParams = activeRow ? !!activeRow.url.split("?")[1] : false
+  const urlQueryParams = activeRow && activeRow.url.split("?")[1]
+  let hasUrlParams = activeRow ? !!urlQueryParams : false
   let urlParams = []
   if (hasUrlParams) {
-    const urlParamsSplit = activeRow.url.split("?")[1].split("&")
-    urlParams = urlParamsSplit.map(item => {
-      const [name, value] = item.split("=")
-      return { name, value }
-    })
+    const urlParamsSplit = urlQueryParams.split("&")
+    urlParams = urlParamsSplit.map(item => item.split("="))
   }
+
   return (
     <div>
       <NetworkHeader onFilterChange={onFilterChange} />
-      {/* {rows.length === 0 ? (
-        renderEmpty()
-      ) : ( */}
       <div>
         <ReactDataGrid
           columns={columns}
@@ -130,6 +148,9 @@ const TableRenderer = ({ data, renderEmpty }) => {
           onGridSort={(sortColumn, sortDirection) =>
             setRows(sortRows(data, sortColumn, sortDirection))
           }
+          // Context Menu
+          contextMenu={<ExampleContextMenu />}
+          RowsContainer={ContextMenuTrigger}
         />
         <div
           style={{
@@ -148,58 +169,57 @@ const TableRenderer = ({ data, renderEmpty }) => {
               </TabList>
 
               <TabPanel>
-                {headers(activeRow).map(renderItem)}
-                {renderSeparator("Response Headers")}
-                {Object.entries(activeRow.response.headers).map(([key, value]) =>
-                  renderItem({ name: key, value })
-                )}
-                {renderSeparator("Request Headers")}
-                {Object.entries(activeRow.request.headers).map(([key, value]) =>
-                  renderItem({ name: key, value })
-                )}
-                {activeRow.request.headers.cookie && (
-                  <>
-                    {renderSeparator("Request Cookies")}
-                    {activeRow.request.headers.cookie.split("; ").map(item => {
-                      const [key, value] = item.split("=")
-                      return renderItem({
-                        name: key,
-                        value,
-                      })
-                    })}
-                  </>
-                )}
+                <ResponsePreview data={headers(activeRow).map(item => [item.name, item.value])} />
+                <ResponsePreview
+                  title={"Response Headers"}
+                  data={Object.entries(activeRow.response.headers)}
+                  raw={activeRow.response.headers}
+                />
+                <ResponsePreview
+                  title={"Request Headers"}
+                  data={Object.entries(activeRow.request.headers)}
+                  raw={activeRow.request.headers}
+                />
                 {hasUrlParams && (
-                  <>
-                    {renderSeparator("Query String Params")}
-                    {urlParams.map(renderItem)}
-                  </>
+                  <ResponsePreview
+                    title={"Query String Params"}
+                    data={urlParams}
+                    raw={urlQueryParams}
+                  />
                 )}
+
+                {activeRow.request.headers.cookie && (
+                  <ResponsePreview
+                    title={"Request Cookies"}
+                    data={activeRow.request.headers.cookie.split("; ").map(item => item.split("="))}
+                    raw={activeRow.request.headers.cookie}
+                  />
+                )}
+
                 {activeRow.request.data && (
-                  <>
-                    {renderSeparator("Request Data")}
-                    <ObjectTree object={JSON.parse(activeRow.request.data)} />
-                  </>
+                  <ResponsePreview
+                    title={"Request Payload"}
+                    object={activeRow.request.data}
+                    raw={activeRow.request.data}
+                  />
                 )}
               </TabPanel>
               <TabPanel>
-                <div>
-                  {hasValidJSONResponse ? (
-                    <ObjectTree object={activeRow.response.body} />
-                  ) : (
-                    <div style={{ background: "white", padding: 10 }}>
-                      <div dangerouslySetInnerHTML={createMarkup()} />
-                    </div>
-                  )}
-                </div>
+                {hasValidJSONResponse ? (
+                  <ObjectTree object={activeRow.response.body} />
+                ) : (
+                  <iframe
+                    style={{ width: "100%", height: "100%", border: 0 }}
+                    src={`data:text/html,${activeRow.response.body || "No Response"}`}
+                  ></iframe>
+                )}
               </TabPanel>
             </Tabs>
           ) : (
-            <h3>Select request to see more details</h3>
+            <h3 style={{ padding: 15, textAlign: "center" }}>Select request to see more details</h3>
           )}
         </div>
       </div>
-      {/* )} */}
     </div>
   )
 }

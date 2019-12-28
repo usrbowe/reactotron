@@ -1,6 +1,5 @@
 /* TEMPORARY  */
 .react-tabs {
-  font-family: monaco, Consolas, "Lucida Console", monospace;
   height: 100%;
 }
 .react-tabs__tab-list {
@@ -31,6 +30,7 @@
 .react-grid-Grid {
   border: 0;
   background-color: var(--main-bg-color) !important;
+  border-top: 1px solid var(--color-lineLighter) !important;
 }
 .react-grid-Canvas {
   background-color: var(--main-bg-color) !important;
@@ -38,15 +38,13 @@
 .react-grid-Main {
   background-color: var(--main-bg-color) !important;
   outline: none !important;
+  font-size: 13px;
 }
 .react-grid-Header {
   border-color: var(--color-lineLighter) !important;
   border-bottom: 1px solid var(--color-lineLighter) !important;
   background: var(--color-backgroundLighter) !important;
   box-shadow: none !important;
-}
-.react-grid-HeaderRow {
-  border-top: 1px solid var(--color-lineLighter) !important;
 }
 .react-grid-Row.row-context-menu .react-grid-Cell {
   background-color: var(--color-backgroundLighter) !important;
@@ -55,12 +53,14 @@
   background-color: var(--color-backgroundLighter) !important;
 }
 .react-grid-HeaderCell {
+  font-weight: normal !important;
+  padding: 4px !important;
   background-color: inherit !important;
   border-right-color: var(--color-lineLighter) !important;
-  border-bottom-color: var(--color-lineLighter) !important;
+  border-bottom: none !important;
 }
 .react-grid-Row--even .react-grid-Cell {
-  background-color: var(--color-backgroundDarker) !important;
+  background-color: var(--color-backgroundLighter) !important;
 }
 .react-grid-Cell {
   background-color: var(--color-background) !important;
@@ -71,6 +71,66 @@
   white-space: nowrap !important;
   text-overflow: ellipsis !important;
   overflow: hidden !important;
+}
+/* Reac Grid Context Menu */
+.react-contextmenu {
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 16px;
+  color: #373a3c;
+  text-align: left;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  outline: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease !important;
+}
+
+.react-contextmenu.react-contextmenu--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.react-contextmenu-item {
+  padding: 3px 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #373a3c;
+  text-align: inherit;
+  white-space: nowrap;
+  background: 0 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.react-contextmenu-item.react-contextmenu-item--active,
+.react-contextmenu-item.react-contextmenu-item--selected {
+  color: #fff;
+  background-color: #20a0ff;
+  border-color: #20a0ff;
+  text-decoration: none;
+}
+
+.react-contextmenu-item.react-contextmenu-item--disabled,
+.react-contextmenu-item.react-contextmenu-item--disabled:hover {
+  color: #878a8c;
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.react-contextmenu-item--divider {
+  margin-bottom: 3px;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: inherit;
+}
+.react-contextmenu-item--divider:hover {
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 html {
@@ -88,9 +148,10 @@ body {
   margin: 0;
   border: 0;
   cursor: default;
-  font-family: "Fira Code", "SF Mono", "Consolas", "Segoe UI", "Roboto", "-apple-system",
-    "Helvetica Neue", sans-serif;
-  font-size: 0.94em;
+  /* font-family: "SF Mono", "Consolas", "Segoe UI", "Roboto", "-apple-system", "Helvetica Neue",
+    sans-serif; */
+  font-family: ".SFNSDisplay-Regular", "Helvetica Neue", "Lucida Grande", sans-serif;
+  font-size: 12px;
   -webkit-user-select: none;
 }
 th {

@@ -49,7 +49,7 @@ const Help = () => {
   return (
     <div style={Styles.container}>
       <ErrorBoundary>
-        <Header title={`Using Reactotron ${pjson.version}`} />
+        <Header title={`Using ${pjson.productName} ${pjson.version}`} />
         <div style={Styles.content}>
           <div style={Styles.title}>{SETTINGS}</div>
           <form>
@@ -69,6 +69,7 @@ const Help = () => {
               ))}
             </select>
           </form>
+          <span>Changing theme needs restarting the app 🙏</span>
 
           <div style={Styles.title}>{FEEDBACK}</div>
           <HelpFeedback />

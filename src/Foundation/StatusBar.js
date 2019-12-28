@@ -28,8 +28,17 @@ const Styles = {
     height: 85,
   },
   connectionInfo: {
+    display: "flex",
     color: Colors.foregroundLight,
     textAlign: "center",
+  },
+  connectionIndicator: {
+    height: 15,
+    width: 15,
+    background: `currentColor`,
+    borderRadius: 15,
+    marginRight: 10,
+    boxShadow: `currentColor 0 0 2`,
   },
   connections: {
     display: "flex",
@@ -83,7 +92,13 @@ class StatusBar extends Component {
     return (
       <div style={Styles.content} onClick={this.handleOpenStatusBar}>
         <div style={Styles.connectionInfo}>
-          port {session.port} | {session.connections.length} connections
+          <div
+            style={{
+              ...Styles.connectionIndicator,
+              color: session.connections.length ? "#8BC34A" : "#9E9E9E",
+            }}
+          ></div>
+          {session.connections.length} connections
         </div>
         <div style={Styles.connectionInfo}>device: {selectedDevice}</div>
         <div style={Styles.expandIcon}>

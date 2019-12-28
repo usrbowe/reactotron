@@ -120,6 +120,7 @@ class Network extends Component {
         const finalUrl = fragment.startsWith("?")
           ? splitUrl[splitUrl.length - 2] + fragment
           : fragment
+        const showSeconds = duration > 999
         return {
           id: index,
           url: request.url,
@@ -127,7 +128,7 @@ class Network extends Component {
           domain: betterDomain,
           method: request.method,
           status: response.status,
-          time: `${duration}ms`,
+          time: `${duration / (showSeconds ? 1000 : 1)} ${showSeconds ? "s" : "ms"}`,
           // hidden data
           request,
           response,
@@ -140,7 +141,7 @@ class Network extends Component {
       <div style={Styles.container}>
         <ErrorBoundary>
           <div style={Styles.commands} ref="commands">
-            <TableRenderer data={data} renderEmpty={this.renderEmpty} />
+            <TableRenderer data={[...data].reverse()} renderEmpty={this.renderEmpty} />
           </div>
         </ErrorBoundary>
       </div>

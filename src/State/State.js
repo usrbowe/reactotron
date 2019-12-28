@@ -16,6 +16,7 @@ import Subscriptions from "./Subscriptions"
 import Button from "../Shared/CommandToolbarButton"
 import Colors from "../Theme/Colors"
 import ErrorBoundary from "../Shared/ErrorBoundary"
+import EmptyScreen from "../Shared/EmptyScreen"
 
 const toolbarButton = {
   cursor: "pointer",
@@ -111,13 +112,10 @@ class State extends Component {
           {devToolsVisible ? (
             <DevTools store={this.store} />
           ) : (
-            <div id="waiting" style={{ padding: 25 }}>
-              <h2>Waiting for first dispatch...</h2>
-              <div>
-                <h4>Redux </h4>
-                <div>Log will be shown upon first dispatched action</div>
-              </div>
-            </div>
+            <EmptyScreen
+              title={"Waiting for first dispatch..."}
+              description={"Log will be shown upon first dispatched action"}
+            />
           )}
         </ErrorBoundary>
       </div>
