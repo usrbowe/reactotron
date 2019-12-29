@@ -8,6 +8,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
 import Colors from "../Theme/Colors"
 import NetworkHeader from "./NetworkHeader"
 import ResponsePreview from "./ResponsePreview"
+import { apiRequestToCurl } from "../Lib/api-to-curl"
 
 const { ContextMenu, MenuItem, ContextMenuTrigger } = Menu
 
@@ -103,10 +104,15 @@ const TableRenderer = ({ data, renderEmpty }) => {
         <MenuItem
           data={{ rowIdx, idx }}
           onClick={() => {
-            // TODO: add temp[x] if previous taken
+            let index = 0
+            let tempValue = `$temp${index}`
+            do {
+              index++
+              tempValue = `$temp${index}`
+            } while (global[tempValue] !== undefined)
             console.log(
-              "Stored new global variable $temp1",
-              (global.$temp1 = rows[rowIdx].response.body)
+              `Stored new global variable ${tempValue}`,
+              (global[tempValue] = rows[rowIdx].response.body)
             )
           }}
         >
@@ -119,6 +125,14 @@ const TableRenderer = ({ data, renderEmpty }) => {
           }}
         >
           Copy response to clipboard
+        </MenuItem>
+        <MenuItem
+          data={{ rowIdx, idx }}
+          onClick={() => {
+            clipboard.writeText(apiRequestToCurl({ request: rows[rowIdx].request }))
+          }}
+        >
+          Copy request as cURL
         </MenuItem>
       </ContextMenu>
     )
