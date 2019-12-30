@@ -1,11 +1,43 @@
 import { inject, observer } from "mobx-react"
 import { addIndex, identity, isNil, map, reverse } from "ramda"
 import React, { Component } from "react"
-import getCommandComponent from "../Commands"
 import Empty from "../Shared/EmptyState"
 import AppStyles from "../Theme/AppStyles"
-import TimelineHeader from "./TimelineHeader"
-import { MdReorder } from "react-icons/md";
+import Colors from "../Theme/Colors"
+import ErrorBoundary from "../Shared/ErrorBoundary"
+import Checkbox from "../Shared/Checkbox"
+import Header from "../Foundation/Header"
+
+// all possible commands grouped by functionality
+const GROUPS = [
+  {
+    name: "Informational",
+    items: [
+      { value: "log", text: "Log" },
+      { value: "image", text: "Image" },
+      { value: "display", text: "Custom Display" },
+    ],
+  },
+  {
+    name: "General",
+    items: [
+      { value: "client.intro", text: "Connection" },
+      { value: "benchmark.report", text: "Benchmark" },
+    ],
+  },
+  {
+    name: "Async Storage",
+    items: [{ value: "asyncStorage.mutation", text: "Mutations" }],
+  },
+  {
+    items: [
+      { value: "api.response", text: "API", deprecated: true },
+      { value: "state.action.complete", text: "Action", deprecated: true },
+      { value: "saga.task.complete", text: "Saga", deprecated: true },
+      { value: "state.values.change", text: "Subscription Changed", deprecated: true },
+    ],
+  },
+]
 
 const mapIndexed = addIndex(map)
 
@@ -35,77 +67,73 @@ const Styles = {
     padding: 20,
     fontSize: 16,
   },
+  // filter styles
+  groupName: {
+    fontSize: 18,
+    marginTop: 10,
+    marginBottom: 10,
+    color: Colors.foregroundLight,
+    paddingBottom: 2,
+    borderBottom: `1px solid ${Colors.lineLighter}`,
+  },
+  numberContainer: {
+    position: "relative",
+  },
+  inputStyle: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    backgroundColor: Colors.backgroundLighter,
+    color: Colors.foregroundDark,
+    border: "none",
+    paddingLeft: 10,
+    paddingTop: 4,
+    paddingBottom: 4,
+    paddingRight: 10,
+  },
+  checkButton: {
+    cursor: "pointer",
+    color: Colors.tag,
+  },
 }
 
 @inject("session")
 @observer
 class Timeline extends Component {
-  // fires when we will update
-  componentWillUpdate() {
-    const node = this.refs.commands
-    // http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
-    // remember our height, position, and if we're at the top
-    this.scrollHeight = node.scrollHeight
-    this.scrollTop = node.scrollTop
-    this.isPinned = this.scrollTop === 0
-  }
-
-  // fires after we did update
-  componentDidUpdate() {
-    // should we be pinned to top, let's not auto-scroll
-    if (this.isPinned) return
-    const node = this.refs.commands
-    // scroll to the place we were before
-    // TODO: this falls apart as we reach max queue size as the scrollHeight no longer changes
-    node.scrollTop = this.scrollTop + node.scrollHeight - this.scrollHeight
-  }
-
-  renderEmpty() {
-    return (
-      <Empty icon={MdReorder} title="No Activity">
-        <p>Once your app connects and starts sending events, they will appear here.</p>
-      </Empty>
-    )
-  }
-
-  renderItem = (command, index) => {
-    const CommandComponent = getCommandComponent(command)
-    if (isNil(CommandComponent)) return null
-
-    // grab the commands (heads up --- they're in reverse order for display purposes)
-    const { commands = [] } = this.props.session
-
-    // is this the bottom one?
-    const isLast = index == commands.length - 1
-
-    // find the one before it
-    const previousCommand = isLast ? null : commands[index + 1]
-
-    // if we have a previous one, calculate the time difference
-    const diff =
-      previousCommand &&
-      previousCommand.date &&
-      command.date &&
-      command.date.getTime() - previousCommand.date.getTime()
-    // glitches in the matrix
-    const deltaTime = isLast || diff < 0 ? 0 : diff
-
-    return <CommandComponent deltaTime={deltaTime} key={command.messageId} command={command} />
-  }
-
   render() {
     const { session } = this.props
     const { commands, ui } = session
     const isEmpty = commands.length === 0
     const reverseIf = ui.isTimelineOrderReversed ? reverse : identity
 
+    const groups = GROUPS.map((opt, optIdx) => {
+      const options = opt.items.map((itm, itmIdx) => {
+        const isChecked = session.isCommandHidden(itm.value)
+        const onToggle = () => session.toggleCommandVisibility(itm.value)
+
+        // Disable deprecated options
+        if (itm.deprecated) {
+          if (!isChecked) session.toggleCommandVisibility(itm.value)
+        }
+
+        return <Checkbox key={itmIdx} checked={isChecked} label={itm.text} onToggle={onToggle} />
+      })
+      // Hide deprecated
+      if (!opt.name) return null
+      return (
+        <div style={Styles.group} key={optIdx}>
+          <div style={Styles.groupName}>{opt.name}</div>
+          <div style={Styles.option}>{options}</div>
+        </div>
+      )
+    })
+
     return (
       <div style={Styles.container}>
-        <TimelineHeader onFilter={this.onFilter} />
-        {isEmpty && this.renderEmpty()}
-        <div style={Styles.commands} ref="commands">
-          {reverseIf(mapIndexed(this.renderItem, commands))}
-        </div>
+        <ErrorBoundary>
+          <Header title={`Toggle visibility of commands in Console`} />
+          <div style={AppStyles.Modal.body}>{groups}</div>
+        </ErrorBoundary>
       </div>
     )
   }

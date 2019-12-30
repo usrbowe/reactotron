@@ -251,6 +251,11 @@ class Session {
           break
         default:
           if (title === "ERROR") window._console.error(message)
+          if (command.type === "asyncStorage.mutation")
+            window._console.debug(
+              `[ASYNC-STORAGE] (${command.payload.action}) -> key: ${message.key}`,
+              JSON.parse(message.value)
+            )
           else {
             window._console.debug(`[${title}] `, message)
           }

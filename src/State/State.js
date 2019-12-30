@@ -82,7 +82,6 @@ class State extends Component {
     const hasNewStateChange = watches.id !== prevProps.session.watches.id
     // FIXME: only dispatch when there is new dispatches id
     if (hasInitStore && dispatches && this.state.dispatchesId !== dispatches.id) {
-      // console.log("new state updates -> ", dispatches.action, watches.latest[0])
       this.setState({
         dispatchesId: dispatches.id,
       })
