@@ -180,6 +180,7 @@ const TableRenderer = ({ data, renderEmpty }) => {
               <TabList>
                 <Tab>Headers</Tab>
                 <Tab>Response</Tab>
+                <Tab>Cookies 🍪</Tab>
               </TabList>
 
               <TabPanel>
@@ -202,14 +203,6 @@ const TableRenderer = ({ data, renderEmpty }) => {
                   />
                 )}
 
-                {activeRow.request.headers.cookie && (
-                  <ResponsePreview
-                    title={"Request Cookies"}
-                    data={activeRow.request.headers.cookie.split("; ").map(item => item.split("="))}
-                    raw={activeRow.request.headers.cookie}
-                  />
-                )}
-
                 {activeRow.request.data && (
                   <ResponsePreview
                     title={"Request Payload"}
@@ -226,6 +219,14 @@ const TableRenderer = ({ data, renderEmpty }) => {
                     style={{ width: "100%", height: "100%", border: 0 }}
                     src={`data:text/html,${activeRow.response.body || "No Response"}`}
                   ></iframe>
+                )}
+              </TabPanel>
+              <TabPanel>
+                {activeRow.request.headers.cookie && (
+                  <ResponsePreview
+                    data={activeRow.request.headers.cookie.split("; ").map(item => item.split("="))}
+                    raw={activeRow.request.headers.cookie}
+                  />
                 )}
               </TabPanel>
             </Tabs>
