@@ -9,14 +9,12 @@ import DeviceSelector from "./DeviceSelector"
 const Styles = {
   container: {
     cursor: "pointer",
-    backgroundColor: Colors.backgroundSubtleLight,
-    borderTop: `1px solid ${Colors.chromeLine}`,
+    backgroundColor: Colors.backgroundLighter,
+    borderTop: `1px solid ${Colors.lineLighter}`,
     color: Colors.foregroundDark,
-    boxShadow: `0px 0px 30px ${Colors.glow}`,
   },
   content: {
-    backgroundColor: Colors.subtleLine,
-    height: 25,
+    height: 27,
     paddingLeft: 10,
     paddingRight: 10,
     ...AppStyles.Layout.hbox,
@@ -100,7 +98,21 @@ class StatusBar extends Component {
           ></div>
           {session.connections.length} connections
         </div>
-        <div style={Styles.connectionInfo}>device: {selectedDevice}</div>
+        <div style={Styles.connectionInfo}>Devices: {selectedDevice}</div>
+        {/* <select
+          value={session.selectedConnection.device.name}
+          style={{ height: 35 }}
+          onChange={e => {
+            console.log(e.target.value)
+            this.handleDeviceSelected(e.target.value)
+          }}
+        >
+          {session.connections.map(item => (
+            <option key={item.id} value={item.device.name}>
+              {item.device.name}
+            </option>
+          ))}
+        </select> */}
         <div style={Styles.expandIcon}>
           <ExpandIcon size={18} />
         </div>

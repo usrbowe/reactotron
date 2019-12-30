@@ -5,9 +5,9 @@ import ReactTooltip from "react-tooltip"
 
 const Styles = {
   container: {
+    display: "flex",
     color: Colors.foregroundDark,
-    marginTop: -2,
-    marginRight: 8,
+    cursor: "pointer",
   },
   iconSize: 24,
   icon: {},

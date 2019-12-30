@@ -24,7 +24,7 @@
 .react-tabs__tab-panel--selected {
   overflow: auto;
   padding: 5px;
-  height: calc(100% - 133px);
+  height: calc(100% - 109px);
   user-select: text;
 }
 /* DATA grid */

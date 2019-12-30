@@ -57,7 +57,6 @@ const Help = () => {
               value={theme}
               style={{ height: 35 }}
               onChange={e => {
-                console.log(e.target.value)
                 setTheme(e.target.value)
                 localStorage.setItem("themeName", e.target.value)
               }}

@@ -13,14 +13,8 @@ import { Provider, observer } from "mobx-react"
 import React, { Component } from "react"
 import { ipcRenderer, remote } from "electron"
 import config from "../Lib/config"
-import FilterTimelineDialog from "../Dialogs/FilterTimelineDialog"
-import ExportTimelineDialog from "../Dialogs/ExportTimelineDialog"
-import RenameStateDialog from "../Dialogs/RenameStateDialog"
 import SendCustomDialog from "../Dialogs/SendCustomDialog"
 import StateDispatchDialog from "../Dialogs/StateDispatchDialog"
-import StateKeysAndValuesDialog from "../Dialogs/StateKeysAndValuesDialog"
-import StateWatchDialog from "../Dialogs/StateWatchDialog"
-import Home from "../Home/Home"
 import Help from "../Help/Help"
 import Network from "../Network/Network"
 import ReactTab from "../React/React"
@@ -29,11 +23,9 @@ import SessionStore from "../Stores/SessionStore"
 import AppStyles from "../Theme/AppStyles"
 import Colors from "../Theme/Colors"
 import Timeline from "../Timeline/Timeline"
-import Sidebar from "./Sidebar"
 import Tabbar from "./Tabbar"
 import StatusBar from "./StatusBar"
 import CustomCommandsList from "../CustomCommands/CustomCommandsList"
-import ReactotronTerminal from "./ReactotronTerminal"
 import GlobalStyles from "./GlobalStyles"
 
 const session = new SessionStore(config.get("server.port", 9090))
@@ -67,7 +59,6 @@ export default class App extends Component {
 
   render() {
     const { ui } = session
-    const showHome = ui.tab === "home"
     const showTimeline = ui.tab === "timeline"
     const showHelp = ui.tab === "help"
     const showSettings = ui.tab === "settings"
@@ -85,11 +76,7 @@ export default class App extends Component {
               <>
                 <Tabbar />
                 <div style={Styles.body}>
-                  {/* <Sidebar /> */}
                   <div style={Styles.app}>
-                    <div style={showHome ? Styles.page : Styles.pageHidden}>
-                      <Home />
-                    </div>
                     <div style={showTimeline ? Styles.page : Styles.pageHidden}>
                       <Timeline />
                     </div>
@@ -113,23 +100,11 @@ export default class App extends Component {
                     </div>
                   </div>
                 </div>
-                {/* <div style={Styles.body}>
-                  <div style={Styles.app}>
-                    <div style={Styles.page}>
-                      <ReactotronTerminal />
-                    </div>
-                  </div>
-                </div> */}
               </>
             )}
             <StatusBar />
           </div>
-          <StateKeysAndValuesDialog />
           <StateDispatchDialog />
-          <StateWatchDialog />
-          <RenameStateDialog />
-          <FilterTimelineDialog />
-          <ExportTimelineDialog />
           <SendCustomDialog />
         </div>
       </Provider>
