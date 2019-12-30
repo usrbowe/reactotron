@@ -6,11 +6,15 @@ const Styles = {
     display: "block",
     width: "100%",
     padding: "4px",
+    paddingTop: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
     marginBottom: "24px",
+    borderTop: `1px solid ${Colors.lineLighter}`,
   },
   commandTitle: {
     fontSize: "24px",
-    color: "white",
+    color: Colors.foreground,
   },
   commandDescription: {
     marginTop: "12px",
@@ -28,7 +32,7 @@ const Styles = {
     marginTop: "18px",
     marginBottom: "24px",
     cursor: "pointer",
-    color: "white",
+    color: Colors.foreground,
     transition: "background-color 0.25s ease-in-out",
   },
   text: {
@@ -54,6 +58,8 @@ const Styles = {
     width: "100%",
     border: "none",
     fontSize: "16px",
+    backgroundColor: Colors.backgroundLighter,
+    color: Colors.foregroundDark,
   },
 }
 
