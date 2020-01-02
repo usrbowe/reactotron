@@ -4,10 +4,10 @@ window._console = {
   error: console.error,
   debug: console.debug,
 }
-console.log = noop => noop
-console.warn = noop => noop
-console.error = noop => noop
-console.debhg = noop => noop
+// console.log = noop => noop
+// console.warn = noop => noop
+// console.error = noop => noop
+// console.debhg = noop => noop
 
 import { Provider, observer } from "mobx-react"
 import React, { Component } from "react"

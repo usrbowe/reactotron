@@ -1,8 +1,8 @@
 {
-  "name": "reactotron-app",
-  "productName": "Shopeetron",
-  "version": "3.2.0",
-  "description": "Reactotron desktop mode engage!",
+  "name": "shopeenator-app",
+  "productName": "Shopeenator",
+  "version": "3.2.1",
+  "description": "Shopeenator desktop mode engage!",
   "author": {
     "name": "Infinite Red",
     "email": "hello@infinite.red",
@@ -154,8 +154,8 @@
     "webpack-merge": "4.2.1"
   },
   "build": {
-    "productName": "Shopeetron",
-    "appId": "com.reactotron.app",
+    "productName": "Shopeenator",
+    "appId": "com.shopeenator.app",
     "files": [
       "src/dist/",
       "src/app.html",

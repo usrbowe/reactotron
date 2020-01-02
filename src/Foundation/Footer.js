@@ -4,7 +4,7 @@ import AppStyles from "../Theme/AppStyles"
 import { observer, inject } from "mobx-react"
 const logoUrl = require("../Theme/Reactotron-128.png")
 
-const APP_NAME = "Shopeetron"
+const APP_NAME = "Shopeenator"
 const APP_VERSION = "2.0.0"
 const PORT_LABEL = "port"
 const CONNECTIONS_SUFFIX_SINGULAR = "connection"
