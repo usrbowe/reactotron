@@ -5,7 +5,7 @@ import {
   FaFirefox as IconBrowserFirefox,
   FaSafari as IconBrowserSafari,
   FaEdge as IconBrowserEdge,
-  FaChrome as IconBrowserChrome
+  FaChrome as IconBrowserChrome,
 } from "react-icons/fa"
 
 export function getPlatformName(connection) {
@@ -19,6 +19,17 @@ export function getPlatformName(connection) {
     default:
       return connection.platform || "Unknown platform"
   }
+}
+
+export function getShopeeInformation(connection) {
+  if (!connection) return {}
+  const {
+    shopee: { appVersion = "unknown", environment = "unknown", country = "unknown" } = {},
+  } = connection
+
+  const appVersionString = appVersion.toString().replace(/([0-9])([0-9]{2})([0-9]{2})/, "$1.$2.$3")
+
+  return { country, appVersion, environment }
 }
 
 export function getPlatformDetails(connection) {

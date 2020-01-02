@@ -29,6 +29,7 @@ const Styles = {
     backgroundColor: Colors.background,
     border: "none",
     color: Colors.foregroundDark,
+    fontSize: 13,
   },
 }
 

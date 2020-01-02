@@ -3,7 +3,15 @@ import AppStyles from "../Theme/AppStyles"
 import Colors from "../Theme/Colors"
 import TabbarButton from "./TabbarButton"
 import { inject, observer } from "mobx-react"
-import { MdHome, MdReorder, MdAssignment, MdNetworkWifi, MdMoreVert } from "react-icons/md"
+import {
+  MdCached,
+  MdDeveloperMode,
+  MdHome,
+  MdReorder,
+  MdAssignment,
+  MdNetworkWifi,
+  MdMoreVert,
+} from "react-icons/md"
 import { FaMagic } from "react-icons/fa"
 
 const Styles = {
@@ -89,10 +97,14 @@ class Sidebar extends Component {
               isActive={ui.tab === "customCommands"}
               onClick={this.handleClickCustomCommands}
             />
+            <div
+              style={{ borderLeft: `1px solid ${Colors.lineLighter}`, margin: `4px 7px 4px auto` }}
+            ></div>
+            <TabbarButton icon={MdCached} onClick={ui.reloadNative} />
+            <TabbarButton icon={MdDeveloperMode} onClick={ui.openDevMenuNative} />
             <TabbarButton
               icon={MdMoreVert}
               iconSize={16}
-              styles={{ marginLeft: "auto" }}
               isActive={ui.tab === "help"}
               onClick={this.handleClickHelp}
             />

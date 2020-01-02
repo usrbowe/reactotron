@@ -10,8 +10,12 @@ const Styles = {
     alignItems: "center",
     color: Colors.foreground,
     cursor: "pointer",
-    padding: "2px 14px",
     display: "flex",
+    justifyContent: "center",
+    minWidth: 35,
+  },
+  withText: {
+    padding: "3px 14px",
   },
   containerTop: {
     borderTop: 0,
@@ -36,6 +40,7 @@ const SidebarButton = props => {
     styles,
     isActive ? Styles.containerActive : {},
     hideTopBorder ? Styles.containerTop : {},
+    props.text ? Styles.withText : {},
   ])
 
   return (

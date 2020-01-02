@@ -1,9 +1,10 @@
 import React, { Component } from "react"
 import { MdSwapVert as ExpandIcon } from "react-icons/md"
 import { inject, observer } from "mobx-react"
+import countryFlagEmoji from "country-flag-emoji"
 import Colors from "../Theme/Colors"
 import AppStyles from "../Theme/AppStyles"
-import { getPlatformName, getPlatformDetails } from "../Lib/platformHelpers"
+import { getPlatformName, getPlatformDetails, getShopeeInformation } from "../Lib/platformHelpers"
 import DeviceSelector from "./DeviceSelector"
 
 const Styles = {
@@ -87,6 +88,8 @@ class StatusBar extends Component {
       )}`
     }
 
+    const { country, appVersion, environment } = getShopeeInformation(session.selectedConnection)
+    const { emoji, name: countryName } = countryFlagEmoji.get(country)
     return (
       <div style={Styles.content} onClick={this.handleOpenStatusBar}>
         <div style={Styles.connectionInfo}>
@@ -99,6 +102,13 @@ class StatusBar extends Component {
           {session.connections.length} connections
         </div>
         <div style={Styles.connectionInfo}>Devices: {selectedDevice}</div>
+        {country && (
+          <div style={Styles.connectionInfo} title={countryName} alt={countryName}>
+            Country: {emoji}
+          </div>
+        )}
+        {environment && <div style={Styles.connectionInfo}>Environment: {environment}</div>}
+        {appVersion && <div style={Styles.connectionInfo}>AppVersion: {appVersion}</div>}
         {/* <select
           value={session.selectedConnection.device.name}
           style={{ height: 35 }}
