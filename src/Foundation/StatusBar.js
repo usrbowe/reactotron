@@ -30,6 +30,7 @@ const Styles = {
     display: "flex",
     color: Colors.foregroundLight,
     textAlign: "center",
+    alignItems: "center",
   },
   connectionIndicator: {
     height: 15,
@@ -104,7 +105,7 @@ class StatusBar extends Component {
         <div style={Styles.connectionInfo}>Devices: {selectedDevice}</div>
         {country && (
           <div style={Styles.connectionInfo} title={countryName} alt={countryName}>
-            Country: {emoji}
+            Country: <span style={{ fontSize: 16 }}>{emoji}</span>
           </div>
         )}
         {environment && <div style={Styles.connectionInfo}>Environment: {environment}</div>}
