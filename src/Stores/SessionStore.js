@@ -239,6 +239,7 @@ class Session {
       // NOTE: log all things here!
       const title = command.payload.name
       const message = command.payload.value || command.payload.message || command.payload.data
+      // FIXME: this should be based on command.type not name which only for custom log
       switch (command.payload.name) {
         case "CONSOLE.LOG":
           window._console.log(...command.payload.value)
@@ -250,14 +251,29 @@ class Session {
           window._console.error(...command.payload.value)
           break
         default:
-          if (title === "ERROR") window._console.error(message)
+          // Reactotron.log  and .logImportant
+          if (command.type === "log" && command.payload.level === "debug") {
+            if (command.important) {
+              window._console.warn(command.payload.message)
+            } else {
+              window._console.log(command.payload.message)
+            }
+          }
+          // Miscelanious
+          else if (title === "ERROR") window._console.error(message)
           else if (command.type === "asyncStorage.mutation")
             window._console.debug(
               `[ASYNC-STORAGE] (${command.payload.action}) -> key: ${message.key}`,
               JSON.parse(message.value)
             )
-          else if (!title) window._console.debug("Unhadled command! -> ", command)
-          else {
+          else if (!title) {
+            if (command.type) {
+              window._console.debug(`[${command.type}] `, command.payload)
+            } else {
+              // TODO: this is bug
+              window._console.debug("Shoopenator: UNHANDLED command! -> ", command)
+            }
+          } else {
             window._console.debug(`[${title}] `, message)
           }
       }

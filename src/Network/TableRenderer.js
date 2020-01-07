@@ -81,10 +81,6 @@ const TableRenderer = ({ data, renderEmpty }) => {
     if (rows.length === 0) {
       setActiveRow(null)
     }
-    // If current active is no longer visible
-    if (!rows.find(row => row.id === activeRow.id)) {
-      setActiveRow(null)
-    }
   }, [rows, activeRow])
 
   const sortRows = (initialRows, sortColumn, sortDirection) => rows => {
@@ -110,7 +106,7 @@ const TableRenderer = ({ data, renderEmpty }) => {
               index++
               tempValue = `$temp${index}`
             } while (global[tempValue] !== undefined)
-            console.log(
+            window._console.log(
               `Stored new global variable ${tempValue}`,
               (global[tempValue] = rows[rowIdx].response.body)
             )
