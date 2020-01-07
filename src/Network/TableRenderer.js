@@ -183,12 +183,12 @@ const TableRenderer = ({ data, renderEmpty }) => {
                 <ResponsePreview data={headers(activeRow).map(item => [item.name, item.value])} />
                 <ResponsePreview
                   title={"Response Headers"}
-                  data={Object.entries(activeRow.response.headers)}
+                  data={activeRow.response.headers && Object.entries(activeRow.response.headers)}
                   raw={activeRow.response.headers}
                 />
                 <ResponsePreview
                   title={"Request Headers"}
-                  data={Object.entries(activeRow.request.headers)}
+                  data={activeRow.request.headers && Object.entries(activeRow.request.headers)}
                   raw={activeRow.request.headers}
                 />
                 {hasUrlParams && (
