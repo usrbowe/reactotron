@@ -202,7 +202,7 @@ const TableRenderer = ({ data, renderEmpty }) => {
                 {activeRow.request.data && (
                   <ResponsePreview
                     title={"Request Payload"}
-                    object={activeRow.request.data}
+                    object={JSON.parse(activeRow.request.data)}
                     raw={activeRow.request.data}
                   />
                 )}

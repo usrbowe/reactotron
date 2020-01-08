@@ -3,7 +3,7 @@ import Colors from "../Theme/Colors"
 import ObjectTree from "../Shared/ObjectTree"
 
 const ResponsePreview = ({ title, data, object, raw }) => {
-  if (!data) return null
+  if (!data && !object) return null
   const [showRaw, setShowRaw] = React.useState(false)
   const renderItem = ([name, value]) => (
     <div style={{ marginBottom: 5, marginLeft: 10 }} key={name}>
